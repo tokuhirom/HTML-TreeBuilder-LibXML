@@ -1,5 +1,11 @@
 Revision history for Perl extension HTML::TreeBuilder::LibXML
 
+0.01_02
+
+        - more loose check(libxml is too strict)
+        - added benchmark script
+        - added benchmark result into pod
+
 0.01_01
 
         - initial dev. release
