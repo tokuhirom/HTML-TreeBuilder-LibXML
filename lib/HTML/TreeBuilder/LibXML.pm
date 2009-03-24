@@ -29,6 +29,14 @@ sub findnodes {
     return map { HTML::TreeBuilder::LibXML::Node->new($_) } @nodes;
 }
 
+sub replace_original {
+    require HTML::TreeBuilder::XPath;
+    no warnings 'redefine';
+    *HTML::TreeBuilder::XPath::new = sub {
+        HTML::TreeBuilder::LibXML->new(@_);
+    };
+}
+
 1;
 __END__
 
