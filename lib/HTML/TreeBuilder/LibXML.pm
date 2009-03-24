@@ -1,7 +1,7 @@
 package HTML::TreeBuilder::LibXML;
 use strict;
 use warnings;
-our $VERSION = '0.01';
+our $VERSION = '0.01_01';
 use Carp ();
 use XML::LibXML;
 use HTML::TreeBuilder::LibXML::Node;
@@ -42,15 +42,20 @@ __END__
 
 =head1 NAME
 
-HTML::TreeBuilder::LibXML -
+HTML::TreeBuilder::LibXML - HTML::TreeBuilder::XPath compatible interface with libxml
 
 =head1 SYNOPSIS
 
-  use HTML::TreeBuilder::LibXML;
+    use HTML::TreeBuilder::LibXML;
+    HTML::TreeBuilder::LibXML->replace_original(); # replace HTML::TreeBuilder::LibXML->new
 
 =head1 DESCRIPTION
 
-HTML::TreeBuilder::LibXML is drop-in-replacement version for HTML::TreeBuilder::XPath.
+HTML::TreeBuilder is bit slow for some use case.
+and, XML::LibXML is very fast!
+I want to use it. But, some libraries uses HTML::TreeBuilder.
+
+HTML::TreeBuilder::LibXML is drop-in-replacement for HTML::TreeBuilder::XPath.
 
 Currently, this module implements good enough methods for work with Web::Scraper.
 
