@@ -2,7 +2,7 @@ use inc::Module::Install;
 name 'HTML-TreeBuilder-LibXML';
 all_from 'lib/HTML/TreeBuilder/LibXML.pm';
 
-# requires '';
+requires 'XML::LibXML' => 1.69;
 
 tests 't/*.t';
 author_tests 'xt';
