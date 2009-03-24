@@ -14,6 +14,10 @@ sub new {
 sub parse {
     my ($self, $html) = @_;
     my $parser = XML::LibXML->new();
+    $parser->recover(1);
+    $parser->recover_silently(1);
+    $parser->keep_blanks(0);
+    $parser->expand_entities(1);
     $self->{doc} = $parser->parse_html_string($html);
 }
 
