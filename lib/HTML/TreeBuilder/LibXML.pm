@@ -63,6 +63,19 @@ HTML::TreeBuilder::LibXML is drop-in-replacement for HTML::TreeBuilder::XPath.
 
 Currently, this module implements good enough methods for work with Web::Scraper.
 
+
+=head1 BENCHMARK
+
+This is a benchmark result by tools/benchmark.pl
+
+        Web::Scraper: 0.26
+        HTML::TreeBuilder::XPath: 0.09
+        HTML::TreeBuilder::LibXML: 0.01_01
+
+                     Rate  no_libxml use_libxml
+        no_libxml  5.45/s         --       -94%
+        use_libxml 94.3/s      1632%         --
+
 =head1 AUTHOR
 
 Tokuhiro Matsuno E<lt>tokuhirom  slkjfd gmail.comE<gt>
