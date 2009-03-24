@@ -2,18 +2,21 @@ use strict;
 use warnings;
 use HTML::TreeBuilder::LibXML;
 use Test::More;
+use Data::Dumper;
 
 my $original_ok = eval 'use HTML::TreeBuilder::XPath; 1';
 
-my $tests = 10;
+my $tests = 13;
 $tests *= 2 if $original_ok;
 plan tests => $tests;
 
-main('HTML::TreeBuilder::LibXML');
 main('HTML::TreeBuilder::XPath')  if $original_ok;
+main('HTML::TreeBuilder::LibXML');
 
 sub main {
     my $klass = shift;
+    diag $klass;
+
     my $tree = $klass->new;
     $tree->parse(q{
         <html>
@@ -23,8 +26,7 @@ sub main {
             <div>
                 <a href="http://mixi.jp/">mixi</a>
                 ok.
-            </div>
-            </body>
+            </div></body>
         </html>
     });
     my @nodes = $tree->findnodes('//a');
@@ -35,6 +37,7 @@ sub main {
     is $nodes[0]->string_value, 'wassr';
     is $nodes[0]->as_text, 'wassr';
     is strip($nodes[0]->as_XML), '<a href="http://wassr.jp/">wassr</a>';
+    is strip($nodes[0]->clone->as_XML), '<a href="http://wassr.jp/">wassr</a>';
     is strip($nodes[0]->as_HTML), '<a href="http://wassr.jp/">wassr</a>';
     is $nodes[0]->tag, 'a';
 

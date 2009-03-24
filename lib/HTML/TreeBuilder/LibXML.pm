@@ -18,7 +18,8 @@ sub parse {
     $parser->recover_silently(1);
     $parser->keep_blanks(0);
     $parser->expand_entities(1);
-    $self->{node} = $parser->parse_html_string($html)->documentElement;
+    my $doc = $parser->parse_html_string($html);
+    $self->{node} = $doc->documentElement;
 }
 
 sub replace_original {
