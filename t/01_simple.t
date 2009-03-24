@@ -5,7 +5,7 @@ use Test::More;
 
 my $original_ok = eval 'use HTML::TreeBuilder::XPath; 1';
 
-my $tests = 8;
+my $tests = 9;
 $tests *= 2 if $original_ok;
 plan tests => $tests;
 
@@ -31,6 +31,7 @@ sub main {
     is $nodes[0]->string_value, 'wassr';
     is $nodes[0]->as_text, 'wassr';
     is strip($nodes[0]->as_XML), '<a href="http://wassr.jp/">wassr</a>';
+    is strip($nodes[0]->as_HTML), '<a href="http://wassr.jp/">wassr</a>';
     is $nodes[0]->tag, 'a';
 
     is $nodes[1]->attr('href'), 'http://mixi.jp/';

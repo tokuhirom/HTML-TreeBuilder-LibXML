@@ -4,6 +4,7 @@ use warnings;
 
 sub new {
     my ($class, $node) = @_;
+    die 'missing node' unless $node;
     bless {node => $node}, $class;
 }
 
@@ -26,6 +27,10 @@ sub as_text {
 }
 
 sub as_XML {
+    $_[0]->{node}->toString;
+}
+
+sub as_HTML {
     $_[0]->{node}->toString;
 }
 
