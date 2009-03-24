@@ -3,8 +3,8 @@ use strict;
 use warnings;
 our $VERSION = '0.01_02';
 use Carp ();
+use base 'HTML::TreeBuilder::LibXML::Node';
 use XML::LibXML;
-use HTML::TreeBuilder::LibXML::Node;
 
 sub new {
     my $class = shift;
@@ -18,19 +18,7 @@ sub parse {
     $parser->recover_silently(1);
     $parser->keep_blanks(0);
     $parser->expand_entities(1);
-    $self->{doc} = $parser->parse_html_string($html);
-}
-
-sub delete {
-    my $self = shift;
-    delete $self->{$_} for keys %$self;
-}
-
-sub findnodes {
-    my ($self, $xpath) = @_;
-
-    my @nodes = $self->{doc}->findnodes( $xpath );
-    return map { HTML::TreeBuilder::LibXML::Node->new($_) } @nodes;
+    $self->{node} = $parser->parse_html_string($html)->documentElement;
 }
 
 sub replace_original {

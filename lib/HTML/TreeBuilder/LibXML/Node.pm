@@ -33,4 +33,35 @@ sub tag {
     $_[0]->{node}->localname
 }
 
+# hack for Web::Scraper
+sub isa {
+    my ($self, $klass) = @_;
+    $klass eq 'HTML::Element' ? 1 : UNIVERSAL::isa($self, $klass);
+}
+
+sub findnodes {
+    my ($self, $xpath) = @_;
+
+    my @nodes = $self->{node}->findnodes( $xpath );
+    return map { HTML::TreeBuilder::LibXML::Node->new($_) } @nodes;
+}
+
+sub clone {
+    my ($self, ) = @_;
+    my $pkg = ref $self;
+
+    my $orignode = $self->{node};
+    my $origdoc = $orignode->ownerDocument;
+
+    my $node = $orignode->cloneNode(1);
+    my $doc = XML::LibXML::Document->new($origdoc->version, $origdoc->encoding);
+    $doc->setDocumentElement($node);
+    $pkg->new($node);
+}
+
+sub delete {
+    my $self = shift;
+    delete $self->{$_} for keys %$self;
+}
+
 1;

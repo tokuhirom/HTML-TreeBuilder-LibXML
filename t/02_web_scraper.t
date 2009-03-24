@@ -4,7 +4,7 @@ use Test::More;
 use HTML::TreeBuilder::LibXML;
 
 plan skip_all => "this test requires Web::Scraper" unless eval "use Web::Scraper; 1";
-plan tests => 2*2;
+plan tests => 2*3;
 
 my $html = <<'...';
 <html>
@@ -21,9 +21,13 @@ use Web::Scraper;
 my $ret = scraper {
     process '//a', 'text[]', 'TEXT';
     process '//a', 'href[]', '@href';
+    process '//div', 'div[]', scraper {
+        process '//a', 'link[]', 'TEXT';
+    };
 }->scrape($html);
 is_deeply($ret->{text}, ['wassr', 'mixi']);
 is_deeply($ret->{href}, ['http://wassr.jp/', 'http://mixi.jp/']);
+is_deeply($ret->{div}, [{link => ['mixi']}]);
 ...
 
 &run;
