@@ -5,7 +5,7 @@ use Test::More;
 
 my $original_ok = eval 'use HTML::TreeBuilder::XPath; 1';
 
-my $tests = 9;
+my $tests = 10;
 $tests *= 2 if $original_ok;
 plan tests => $tests;
 
@@ -17,10 +17,14 @@ sub main {
     my $tree = $klass->new;
     $tree->parse(q{
         <html>
+            <head><title>test</title></head>
+            <body>
             <a href="http://wassr.jp/">wassr</a>
             <div>
                 <a href="http://mixi.jp/">mixi</a>
+                ok.
             </div>
+            </body>
         </html>
     });
     my @nodes = $tree->findnodes('//a');
@@ -36,12 +40,16 @@ sub main {
 
     is $nodes[1]->attr('href'), 'http://mixi.jp/';
 
+    $nodes[1]->delete;
+    like strip($tree->as_HTML), qr{<html><head><title>test</title></head><body><a href="http://wassr.jp/">wassr</a><div>\s+ok.\s+</div></body></html>};
+
     $tree = $tree->delete;
 }
 
 sub strip {
     local $_ = shift;
-    s/\n$//;
+    s/\n$//g;
+    s/>\s+</></smg;
     $_;
 }
 

@@ -66,7 +66,7 @@ sub clone {
 
 sub delete {
     my $self = shift;
-    delete $self->{$_} for keys %$self;
+    $self->{node}->unbindNode();
 }
 
 1;
