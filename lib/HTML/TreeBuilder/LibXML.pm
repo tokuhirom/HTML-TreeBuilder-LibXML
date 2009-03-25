@@ -18,6 +18,7 @@ sub parse {
     $parser->recover_silently(1);
     $parser->keep_blanks(0);
     $parser->expand_entities(1);
+    $parser->no_network(1);
     my $doc = $parser->parse_html_string($html);
     $self->{node} = $doc->documentElement;
 }
