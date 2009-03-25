@@ -9,3 +9,5 @@ Tokuhiro Matsuno
 tokuhirom  slkjfd gmail.com
 HTML::TreeBuilder::LibXML
 libxml
+Tatsuhiko
+Miyagawa
