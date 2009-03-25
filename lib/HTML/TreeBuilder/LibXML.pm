@@ -66,16 +66,14 @@ This is a benchmark result by tools/benchmark.pl
         no_libxml  5.45/s         --       -94%
         use_libxml 94.3/s      1632%         --
 
-=head1 THANKS TO
-
-woremacx++
-http://d.hatena.ne.jp/woremacx/20080202/1201927162
-
 =head1 AUTHOR
 
 Tokuhiro Matsuno E<lt>tokuhirom  slkjfd gmail.comE<gt>
 
 =head1 THANKS TO
+
+woremacx++
+http://d.hatena.ne.jp/woremacx/20080202/1201927162
 
 Tatsuhiko Miyagawa
 
