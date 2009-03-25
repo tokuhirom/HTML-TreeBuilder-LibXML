@@ -25,10 +25,32 @@ sub parse {
 
 sub replace_original {
     require HTML::TreeBuilder::XPath;
+
+    my $orig = HTML::TreeBuilder::XPath->can('new');
+
     no warnings 'redefine';
     *HTML::TreeBuilder::XPath::new = sub {
         HTML::TreeBuilder::LibXML->new();
     };
+
+    if (defined wantarray) {
+        return HTML::TreeBuilder::LibXML::Destructor->new(
+            sub { *HTML::TreeBuilder::XPath::new = $orig } );
+    }
+    return;
+}
+
+package # hide from cpan
+    HTML::TreeBuilder::LibXML::Destructor;
+
+sub new {
+    my ( $class, $callback ) = @_;
+    bless { cb => $callback }, $class;
+}
+
+sub DESTROY {
+    my $self = shift;
+    $self->{cb}->();
 }
 
 1;
