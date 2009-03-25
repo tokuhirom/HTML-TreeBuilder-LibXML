@@ -1,5 +1,9 @@
 Revision history for Perl extension HTML::TreeBuilder::LibXML
 
+0.03
+
+        - [FEATURE] added to restore hacked constructor(suggested by miyagawa++).
+
 0.02
 
         - [MISC] $parser->no_network(1)
