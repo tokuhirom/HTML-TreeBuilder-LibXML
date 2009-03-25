@@ -1,5 +1,12 @@
 Revision history for Perl extension HTML::TreeBuilder::LibXML
 
+0.01_03
+
+        - [BUG] Node->delete is unbound()
+        - [FEATURE] added getFirstChild() method
+        - [FEATURE] added Node->as_HTML
+        - [MISC] added THANKS secion in the pod(感謝の意)
+
 0.01_02
 
         - more loose check(libxml is too strict)
