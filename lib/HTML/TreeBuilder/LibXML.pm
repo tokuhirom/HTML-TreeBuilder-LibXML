@@ -1,7 +1,7 @@
 package HTML::TreeBuilder::LibXML;
 use strict;
 use warnings;
-our $VERSION = '0.01_03';
+our $VERSION = '0.02';
 use Carp ();
 use base 'HTML::TreeBuilder::LibXML::Node';
 use XML::LibXML;
@@ -74,6 +74,12 @@ http://d.hatena.ne.jp/woremacx/20080202/1201927162
 =head1 AUTHOR
 
 Tokuhiro Matsuno E<lt>tokuhirom  slkjfd gmail.comE<gt>
+
+=head1 THANKS TO
+
+Tatsuhiko Miyagawa
+
+id:dailyflower
 
 =head1 SEE ALSO
 

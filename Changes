@@ -1,5 +1,9 @@
 Revision history for Perl extension HTML::TreeBuilder::LibXML
 
+0.02
+
+        - [MISC] $parser->no_network(1)
+
 0.01_03
 
         - [BUG] Node->delete is unbound()
