@@ -16,6 +16,12 @@ main('HTML::TreeBuilder::LibXML');
 sub main {
     my $klass = shift;
     diag $klass;
+    _simple($klass);
+    _no_eof($klass);
+}
+
+sub _simple {
+    my $klass = shift;
 
     my $tree = $klass->new;
     $tree->parse(q{
@@ -51,7 +57,6 @@ sub main {
 
     $tree = $tree->delete;
 
-    _no_eof($klass);
 }
 
 sub _no_eof {
