@@ -11,15 +11,27 @@ sub new {
     bless {}, $class;
 }
 
+my $PARSER;
+sub _parser {
+    unless ($PARSER) {
+        $PARSER = XML::LibXML->new();
+        $PARSER->recover(1);
+        $PARSER->recover_silently(1);
+        $PARSER->keep_blanks(0);
+        $PARSER->expand_entities(1);
+        $PARSER->no_network(1);
+    }
+    $PARSER;
+}
+
 sub parse {
     my ($self, $html) = @_;
-    my $parser = XML::LibXML->new();
-    $parser->recover(1);
-    $parser->recover_silently(1);
-    $parser->keep_blanks(0);
-    $parser->expand_entities(1);
-    $parser->no_network(1);
-    my $doc = $parser->parse_html_string($html);
+    $self->{_content} .= $html;
+}
+
+sub eof {
+    my ($self, ) = @_;
+    my $doc = $self->_parser->parse_html_string($self->{_content});
     $self->{node} = $doc->documentElement;
 }
 
@@ -75,6 +87,12 @@ HTML::TreeBuilder::LibXML is drop-in-replacement for HTML::TreeBuilder::XPath.
 
 Currently, this module implements good enough methods for work with Web::Scraper.
 
+=head1 TODO
+
+    12:39  miyagawa:> tokuhirom_______: HTML::TreeBuilder::LibXML で->eofがない
+    12:40  miyagawa:> ほかにもありそうだけど
+    12:43  miyagawa:> あと look_down と findvalue
+    12:43  miyagawa:> が Remedie/Plagger でつかわれてる。
 
 =head1 BENCHMARK
 

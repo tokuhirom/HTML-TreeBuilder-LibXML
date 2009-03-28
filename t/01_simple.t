@@ -29,6 +29,7 @@ sub main {
             </div></body>
         </html>
     });
+    $tree->eof;
     my @nodes = $tree->findnodes('//a');
 
     is scalar(@nodes), 2;
