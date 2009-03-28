@@ -6,9 +6,22 @@ use Data::Dumper;
 
 my $original_ok = eval 'use HTML::TreeBuilder::XPath; 1';
 
-my $tests = 20;
+my $tests = 24;
 $tests *= 2 if $original_ok;
 plan tests => $tests;
+
+my $HTML = q{
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html>
+    <head><title>test</title></head>
+    <body>
+    <a href="http://wassr.jp/">wassr</a>
+    <div>
+        <a href="http://mixi.jp/">mixi</a>
+        ok.
+    </div></body>
+</html>
+};
 
 main('HTML::TreeBuilder::XPath')  if $original_ok;
 main('HTML::TreeBuilder::LibXML');
@@ -19,6 +32,7 @@ sub main {
     _simple($klass);
     _no_eof($klass);
     _look_down($klass);
+    _id($klass);
 }
 
 sub _simple {
@@ -114,6 +128,24 @@ sub _look_down {
         my $none = $tree->look_down('_tag' => 'a', sub { 0 });
         ok !defined $none, "none because sub ref returns 0";
     }
+
+    $tree = $tree->delete;
+}
+
+sub _id {
+    my $klass = shift;
+
+    my $tree = $klass->new;
+    $tree->parse($HTML);
+    $tree->eof;
+
+    my ($a) = $tree->look_down('_tag' => 'a');
+    is $a->id, undef;
+    $a->id("OK");
+    is $a->id, 'OK';
+    is strip($a->as_HTML), '<a href="http://wassr.jp/" id="OK">wassr</a>';
+    $a->id(undef);
+    is strip($a->as_HTML), '<a href="http://wassr.jp/">wassr</a>';
 
     $tree = $tree->delete;
 }
