@@ -53,6 +53,13 @@ sub findnodes {
     return map { HTML::TreeBuilder::LibXML::Node->new($_) } @nodes;
 }
 
+sub findvalue {
+    my ($self, $xpath) = @_;
+
+    die "\$self is not loaded: $self" unless $self->{node};
+    $self->{node}->findvalue( $xpath );
+}
+
 sub clone {
     my ($self, ) = @_;
 

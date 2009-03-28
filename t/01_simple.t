@@ -6,7 +6,7 @@ use Data::Dumper;
 
 my $original_ok = eval 'use HTML::TreeBuilder::XPath; 1';
 
-my $tests = 11;
+my $tests = 12;
 $tests *= 2 if $original_ok;
 plan tests => $tests;
 
@@ -46,6 +46,8 @@ sub main {
 
     $nodes[1]->delete;
     like strip($tree->as_HTML), qr{<html><head><title>test</title></head><body><a href="http://wassr.jp/">wassr</a><div>\s+ok.\s+</div></body></html>};
+    
+    is $tree->findvalue('//a[@href="http://wassr.jp/"]/@href'), 'http://wassr.jp/';
 
     $tree = $tree->delete;
 }
