@@ -89,12 +89,39 @@ sub look_down {
 
     $self->_eof_or_die unless $self->{node};
 
-    if (@args == 2 && $args[0] eq '_tag') {
-        my $tagname = $args[1];
-        return $self->findnodes("//$tagname");
-    } else {
-        Carp::croak(q{this method only support ->look_down('_tag' => 'img') today});
+    my @filter;
+    my $xpath = "//*"; # default
+    while (@args) {
+        if (ref $args[0] eq 'CODE') {
+            my $code = shift @args;
+            push @filter, $code;
+        } elsif (@args >= 2 && $args[0] eq '_tag') {
+            my($tag, $want_tag) = splice(@args, 0, 2);
+            $xpath = "//$want_tag";
+        } elsif (@args >= 2) {
+            my($attr, $stuff) = splice(@args, 0, 2);
+            if (ref $stuff eq 'Regexp') {
+                push @filter, sub { no warnings 'uninitialized'; $_[0]->attr($attr) =~ $stuff };
+            } else {
+                push @filter, sub { no warnings 'uninitialized'; $_[0]->attr($attr) eq $stuff };
+            }
+        } else {
+            Carp::carp("Don't know what to do with @args");
+            shift @args;
+        }
     }
+
+    my @nodes = $self->findnodes($xpath);
+    my @wants = grep {
+        my $node = $_;
+        my $ok = 1;
+        for my $filter (@filter) {
+            $filter->($_) or $ok = 0;
+        }
+        $ok ? $node : ();
+    } @nodes;
+
+    wantarray ? @wants : $wants[0];
 }
 
 sub _eof_or_die {
