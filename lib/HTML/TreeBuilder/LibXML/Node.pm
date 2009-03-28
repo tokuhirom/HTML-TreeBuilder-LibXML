@@ -48,15 +48,14 @@ sub isa {
 sub findnodes {
     my ($self, $xpath) = @_;
 
-    die "\$self is not loaded: $self" unless $self->{node};
+    $self->_eof_or_die unless $self->{node};
     my @nodes = $self->{node}->findnodes( $xpath );
     return map { HTML::TreeBuilder::LibXML::Node->new($_) } @nodes;
 }
-
 sub findvalue {
     my ($self, $xpath) = @_;
 
-    die "\$self is not loaded: $self" unless $self->{node};
+    $self->_eof_or_die unless $self->{node};
     $self->{node}->findvalue( $xpath );
 }
 
@@ -81,6 +80,15 @@ sub delete {
 sub getFirstChild {
     my $self = shift;
     __PACKAGE__->new($self->{node}->getFirstChild);
+}
+
+sub _eof_or_die {
+    my $self = shift;
+    if (defined($self->{_content})) {
+        $self->eof;
+    } else {
+        Carp::croak "\$self is not loaded: $self"
+    }
 }
 
 1;

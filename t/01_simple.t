@@ -6,7 +6,7 @@ use Data::Dumper;
 
 my $original_ok = eval 'use HTML::TreeBuilder::XPath; 1';
 
-my $tests = 12;
+my $tests = 13;
 $tests *= 2 if $original_ok;
 plan tests => $tests;
 
@@ -50,6 +50,26 @@ sub main {
     is $tree->findvalue('//a[@href="http://wassr.jp/"]/@href'), 'http://wassr.jp/';
 
     $tree = $tree->delete;
+
+    _no_eof($klass);
+}
+
+sub _no_eof {
+    my $klass = shift;
+    my $tree = $klass->new;
+    $tree->parse(q{
+        <html>
+            <head><title>test</title></head>
+            <body>
+            <a href="http://wassr.jp/">wassr</a>
+            <div>
+                <a href="http://mixi.jp/">mixi</a>
+                ok.
+            </div></body>
+        </html>
+    });
+    my @nodes = $tree->findnodes('//a');
+    is scalar(@nodes), 2;
 }
 
 sub strip {
