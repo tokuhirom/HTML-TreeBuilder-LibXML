@@ -6,7 +6,7 @@ use Data::Dumper;
 
 my $original_ok = eval 'use HTML::TreeBuilder::XPath; 1';
 
-my $tests = 13;
+my $tests = 15;
 $tests *= 2 if $original_ok;
 plan tests => $tests;
 
@@ -16,6 +16,13 @@ main('HTML::TreeBuilder::LibXML');
 sub main {
     my $klass = shift;
     diag $klass;
+    _simple($klass);
+    _no_eof($klass);
+    _look_down($klass);
+}
+
+sub _simple {
+    my $klass = shift;
 
     my $tree = $klass->new;
     $tree->parse(q{
@@ -51,7 +58,6 @@ sub main {
 
     $tree = $tree->delete;
 
-    _no_eof($klass);
 }
 
 sub _no_eof {
@@ -70,6 +76,30 @@ sub _no_eof {
     });
     my @nodes = $tree->findnodes('//a');
     is scalar(@nodes), 2;
+    $tree = $tree->delete;
+}
+
+sub _look_down {
+    my $klass = shift;
+
+    my $tree = $klass->new;
+    $tree->parse(q{
+        <html>
+            <head><title>test</title></head>
+            <body>
+            <a href="http://wassr.jp/">wassr</a>
+            <div>
+                <a href="http://mixi.jp/">mixi</a>
+                ok.
+            </div></body>
+        </html>
+    });
+    $tree->eof;
+    my @nodes = $tree->look_down('_tag' => 'a');
+    is scalar(@nodes), 2;
+    is $nodes[0]->attr('href'), 'http://wassr.jp/';
+
+    $tree = $tree->delete;
 }
 
 sub strip {

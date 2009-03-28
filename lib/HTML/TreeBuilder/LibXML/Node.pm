@@ -82,6 +82,20 @@ sub getFirstChild {
     __PACKAGE__->new($self->{node}->getFirstChild);
 }
 
+sub look_down {
+    my $self = shift;
+    my @args = @_;
+
+    $self->_eof_or_die unless $self->{node};
+
+    if (@args == 2 && $args[0] eq '_tag') {
+        my $tagname = $args[1];
+        return $self->findnodes("//$tagname");
+    } else {
+        Carp::croak(q{this method only support ->look_down('_tag' => 'img') today});
+    }
+}
+
 sub _eof_or_die {
     my $self = shift;
     if (defined($self->{_content})) {
