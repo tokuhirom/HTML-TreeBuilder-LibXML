@@ -75,7 +75,7 @@ HTML::TreeBuilder::LibXML - HTML::TreeBuilder::XPath compatible interface with l
 =head1 SYNOPSIS
 
     use HTML::TreeBuilder::LibXML;
-    HTML::TreeBuilder::LibXML->replace_original(); # replace HTML::TreeBuilder::LibXML->new
+    HTML::TreeBuilder::LibXML->replace_original(); # replace HTML::TreeBuilder::XPath->new
 
 =head1 DESCRIPTION
 
