@@ -50,7 +50,8 @@ sub findnodes {
 
     $self->_eof_or_die unless $self->{node};
     my @nodes = $self->{node}->findnodes( $xpath );
-    return map { HTML::TreeBuilder::LibXML::Node->new($_) } @nodes;
+    @nodes = map { HTML::TreeBuilder::LibXML::Node->new($_) } @nodes;
+    wantarray ? @nodes : \@nodes;
 }
 sub findvalue {
     my ($self, $xpath) = @_;
