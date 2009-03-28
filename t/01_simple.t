@@ -6,7 +6,7 @@ use Data::Dumper;
 
 my $original_ok = eval 'use HTML::TreeBuilder::XPath; 1';
 
-my $tests = 15;
+my $tests = 19;
 $tests *= 2 if $original_ok;
 plan tests => $tests;
 
