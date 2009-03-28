@@ -3,6 +3,13 @@ use strict;
 use warnings;
 use Carp();
 
+=head1 TODO
+
+    parent
+
+=cut
+
+
 sub new {
     my ($class, $node) = @_;
     Carp::croak 'missing node' unless $node;
@@ -37,6 +44,19 @@ sub as_HTML {
 
 sub tag {
     $_[0]->{node}->localname
+}
+
+sub id {
+    if (@_==2) {
+        # setter
+        if (defined $_[1]) {
+            $_[0]->{node}->setAttribute('id', $_[1]);
+        } else {
+            $_[0]->{node}->removeAttribute('id');
+        }
+    } else {
+        $_[0]->{node}->getAttribute('id');
+    }
 }
 
 # hack for Web::Scraper
