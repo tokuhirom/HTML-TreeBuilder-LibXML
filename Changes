@@ -1,5 +1,13 @@
 Revision history for Perl extension HTML::TreeBuilder::LibXML
 
+0.04
+
+        - support more look_down() params(miyagawa)
+        - added ->id support(tokuhirom)
+        - call ->eof automatically for compatibility.(tokuhirom)
+        - added ->findvalue support(tokuhirom)
+        - added ->eof(tokuhirom)
+
 0.03
 
         - [FEATURE] added to restore hacked constructor(suggested by miyagawa++).
