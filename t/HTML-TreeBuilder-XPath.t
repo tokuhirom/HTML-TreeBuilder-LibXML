@@ -10,7 +10,8 @@ HTML::TreeBuilder::LibXML->replace_original;
 
 #########################
 
-my $doc='<html>
+my $doc='<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+        <html>
            <head><title>Example</title></head>
            <body><h1>Example header</h1>
              <div class="intro"><p>Intro p1</p><p>Intro p2</p><p>Intro p3 with <b>bold</b> text</p></div>
