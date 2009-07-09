@@ -1,5 +1,9 @@
 Revision history for Perl extension HTML::TreeBuilder::LibXML
 
+0.05
+
+        - fixed deps
+
 0.04
 
         - support more look_down() params(miyagawa)
