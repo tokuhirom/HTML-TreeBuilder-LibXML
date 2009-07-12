@@ -1,5 +1,9 @@
 Revision history for Perl extension HTML::TreeBuilder::LibXML
 
+0.06
+
+        - Added new_from_content and new_from_file to for more compat. with HTML::TreeBuilder(miyagawa)
+
 0.05
 
         - fixed deps
