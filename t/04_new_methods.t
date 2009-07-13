@@ -6,7 +6,7 @@ use HTML::TreeBuilder::LibXML;
 plan tests => 2;
 
 {
-    my $root = HTML::TreeBuilder::LibXML->new_from_content("<html><body>", "<p>foo</p>", "</body></html");
+    my $root = HTML::TreeBuilder::LibXML->new_from_content("<html><body>", "<p>foo</p>", "</body></html>");
     is $root->findvalue("//p"), "foo";
 }
 
