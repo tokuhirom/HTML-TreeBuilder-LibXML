@@ -3,13 +3,6 @@ use strict;
 use warnings;
 use Carp();
 
-=head1 TODO
-
-    parent
-
-=cut
-
-
 sub new {
     my ($class, $node) = @_;
     Carp::croak 'missing node' unless $node;
@@ -167,3 +160,35 @@ sub _eof_or_die {
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+HTML::TreeBuilder::LibXML::Node - HTML::Element compatible API for HTML::TreeBuilder::LibXML
+
+=head1 SYNOPSIS
+
+  my $value = $node->attr('name');
+  my $string = $node->string_value;
+  my $text   = $node->as_text;
+  my $xml    = $node->as_XML;
+  my $html   = $node->as_HTML;
+  my $tag    = $node->tag;
+  my $id     = $node->id;
+  my $clone  = $node->clone;
+  $node->delete;
+  $node->look_down(@args);
+  my %attr   = $node->all_attr;
+  my %attr   = $node->all_external_attr;
+  my @names  = $node->all_attr_names;
+  my @names  = $node->all_external_attr_names;
+
+  # HTML::TreeBuilder::XPath
+  my @nodes  = $node->findnodes($xpath);
+  my $value  = $node->findvalue($xpath);
+  $node->isTextNode;
+  my $child = $node->getFirstChild;
+
+
+=back

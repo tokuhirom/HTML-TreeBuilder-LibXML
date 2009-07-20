@@ -94,29 +94,35 @@ __END__
 
 =head1 NAME
 
-HTML::TreeBuilder::LibXML - HTML::TreeBuilder::XPath compatible interface with libxml
+HTML::TreeBuilder::LibXML - HTML::TreeBuilder and XPath compatible interface with libxml
 
 =head1 SYNOPSIS
 
     use HTML::TreeBuilder::LibXML;
+
+    my $tree = HTML::TreeBuilder::LibXML->new;
+    $tree->parse($html);
+    $tree->eof;
+
+    # $tree and $node compatible to HTML::Element
+    my @nodes = $tree->findvalue($xpath);
+    for my $node (@nodes) {
+        print $node->tag;
+        my %attr = $node->all_external_attr;
+    }
+
     HTML::TreeBuilder::LibXML->replace_original(); # replace HTML::TreeBuilder::XPath->new
 
 =head1 DESCRIPTION
 
-HTML::TreeBuilder is bit slow for some use case.
-and, XML::LibXML is very fast!
-I want to use it. But, some libraries uses HTML::TreeBuilder.
+HTML::TreeBuilder::XPath is libxml based compatible interface to
+HTML::TreeBuilder, which could be slow for a large document.
 
 HTML::TreeBuilder::LibXML is drop-in-replacement for HTML::TreeBuilder::XPath.
 
-Currently, this module implements good enough methods for work with Web::Scraper.
-
-=head1 TODO
-
-    12:39  miyagawa:> tokuhirom_______: HTML::TreeBuilder::LibXML で->eofがない
-    12:40  miyagawa:> ほかにもありそうだけど
-    12:43  miyagawa:> あと look_down と findvalue
-    12:43  miyagawa:> が Remedie/Plagger でつかわれてる。
+This module doesn't implement all of HTML::TreeBuilder and
+HTML::Element APIs, but eough methods are defined so modules like
+Web::Scraper work.
 
 =head1 BENCHMARK
 
@@ -134,12 +140,12 @@ This is a benchmark result by tools/benchmark.pl
 
 Tokuhiro Matsuno E<lt>tokuhirom  slkjfd gmail.comE<gt>
 
+Tatsuhiko Miyagawa E<lt>miyagawa@cpan.orgE<gt>
+
 =head1 THANKS TO
 
 woremacx++
 http://d.hatena.ne.jp/woremacx/20080202/1201927162
-
-Tatsuhiko Miyagawa
 
 id:dailyflower
 
