@@ -9,3 +9,4 @@ Makefile.old
 nytprof.out
 *.sw[pon]
 *.bak
+*~
