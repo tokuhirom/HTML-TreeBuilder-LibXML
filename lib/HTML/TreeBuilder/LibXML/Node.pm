@@ -144,6 +144,19 @@ sub look_down {
     wantarray ? @wants : $wants[0];
 }
 
+sub all_attr {
+    my $self = shift;
+    return map { $_->name => $_->value } $self->{node}->attributes;
+}
+
+sub all_attr_names {
+    my $self = shift;
+    return map $_->name, $self->{node}->attributes;
+}
+
+sub all_external_attr       { shift->all_attr(@_) }
+sub all_external_attr_names { shift->all_attr_names(@_) }
+
 sub _eof_or_die {
     my $self = shift;
     if (defined($self->{_content})) {

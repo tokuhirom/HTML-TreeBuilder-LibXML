@@ -6,7 +6,7 @@ use Data::Dumper;
 
 my $original_ok = eval 'use HTML::TreeBuilder::XPath; 1';
 
-my $tests = 24;
+my $tests = 26;
 $tests *= 2 if $original_ok;
 plan tests => $tests;
 
@@ -62,6 +62,10 @@ sub _simple {
     is strip($nodes[0]->clone->as_XML), '<a href="http://wassr.jp/">wassr</a>';
     is strip($nodes[0]->as_HTML), '<a href="http://wassr.jp/">wassr</a>';
     is $nodes[0]->tag, 'a';
+
+    my %attr = $nodes[0]->all_external_attr;
+    is_deeply \%attr, { href => "http://wassr.jp/" };
+    is_deeply [ $nodes[0]->all_external_attr_names ], [ 'href' ];
 
     is $nodes[1]->attr('href'), 'http://mixi.jp/';
 
