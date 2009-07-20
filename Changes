@@ -1,5 +1,8 @@
 Revision history for Perl extension HTML::TreeBuilder::LibXML
 
+0.08  Mon Jul 20 10:00:19 PDT 2009
+        - Updated POD document
+
 0.07
         - Implemented all_attr, all_attr_names, all_external_attr and all_external_attr_names (miyagawa)
 
