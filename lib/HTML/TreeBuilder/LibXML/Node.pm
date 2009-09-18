@@ -182,6 +182,7 @@ HTML::TreeBuilder::LibXML::Node - HTML::Element compatible API for HTML::TreeBui
   my $value = $node->attr('name');
   my $string = $node->string_value;
   my $text   = $node->as_text;
+  my $t_text = $node->as_trimmed_text;
   my $xml    = $node->as_XML;
   my $html   = $node->as_HTML;
   my $tag    = $node->tag;
