@@ -6,7 +6,7 @@ use Data::Dumper;
 
 my $original_ok = eval 'use HTML::TreeBuilder::XPath; 1';
 
-my $tests = 26;
+my $tests = 27;
 $tests *= 2 if $original_ok;
 plan tests => $tests;
 
@@ -47,13 +47,16 @@ sub _simple {
             <div>
                 <a href="http://mixi.jp/">mixi</a>
                 ok.
-            </div></body>
+            </div>
+            <a href="http://twitter.com/">twitter
+            </a>
+            </body>
         </html>
     });
     $tree->eof;
     my @nodes = $tree->findnodes('//a');
 
-    is scalar(@nodes), 2;
+    is scalar(@nodes), 3;
     is $nodes[0]->attr('href'), 'http://wassr.jp/';
     ok !$nodes[0]->isTextNode;
     is $nodes[0]->string_value, 'wassr';
@@ -69,8 +72,10 @@ sub _simple {
 
     is $nodes[1]->attr('href'), 'http://mixi.jp/';
 
+    is $nodes[2]->as_trimmed_text, 'twitter';
+
     $nodes[1]->delete;
-    like strip($tree->as_HTML), qr{<html><head><title>test</title></head><body><a href="http://wassr.jp/">wassr</a><div>\s+ok.\s+</div></body></html>};
+    like strip($tree->as_HTML), qr{<html><head><title>test</title></head><body><a href="http://wassr.jp/">wassr</a><div>\s+ok.\s+</div><a href="http://twitter.com/">twitter\s*</a></body></html>};
     
     is $tree->findvalue('//a[@href="http://wassr.jp/"]/@href'), 'http://wassr.jp/';
 

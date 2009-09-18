@@ -27,6 +27,15 @@ sub as_text {
     $_[0]->{node}->textContent;
 }
 
+sub as_trimmed_text {
+    my $text = shift->as_text(@_);
+    $text =~ s/[\n\r\f\t ]+$//s;
+    $text =~ s/^[\n\r\f\t ]+//s;
+    $text =~ s/[\n\r\f\t ]+/ /g;
+    return $text;
+}
+
+
 sub as_XML {
     $_[0]->{node}->toString;
 }
