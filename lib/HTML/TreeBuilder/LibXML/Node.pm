@@ -200,4 +200,3 @@ HTML::TreeBuilder::LibXML::Node - HTML::Element compatible API for HTML::TreeBui
   my $child = $node->getFirstChild;
 
 
-=back
