@@ -34,6 +34,7 @@ sub as_trimmed_text {
     $text =~ s/[\n\r\f\t ]+/ /g;
     return $text;
 }
+sub as_text_trimmed { shift->as_trimmed_text(@_) } # alias
 
 
 sub as_XML {

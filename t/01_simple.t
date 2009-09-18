@@ -6,7 +6,7 @@ use Data::Dumper;
 
 my $original_ok = eval 'use HTML::TreeBuilder::XPath; 1';
 
-my $tests = 27;
+my $tests = 28;
 $tests *= 2 if $original_ok;
 plan tests => $tests;
 
@@ -73,6 +73,7 @@ sub _simple {
     is $nodes[1]->attr('href'), 'http://mixi.jp/';
 
     is $nodes[2]->as_trimmed_text, 'twitter';
+    is $nodes[2]->as_text_trimmed, 'twitter';
 
     $nodes[1]->delete;
     like strip($tree->as_HTML), qr{<html><head><title>test</title></head><body><a href="http://wassr.jp/">wassr</a><div>\s+ok.\s+</div><a href="http://twitter.com/">twitter\s*</a></body></html>};
