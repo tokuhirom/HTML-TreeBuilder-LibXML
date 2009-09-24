@@ -1,5 +1,8 @@
 Revision history for Perl extension HTML::TreeBuilder::LibXML
 
+0.10
+    - added as_trimmed_text(chiba)
+
 0.09 Sun Aug  2 06:02:01 PDT 2009
      - Fixed parse_html method when parsing whitespace strings so it won't break and consistent with HTML::TB
        (Reported by otsune)

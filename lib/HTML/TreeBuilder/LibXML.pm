@@ -1,7 +1,7 @@
 package HTML::TreeBuilder::LibXML;
 use strict;
 use warnings;
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 use Carp ();
 use base 'HTML::TreeBuilder::LibXML::Node';
 use XML::LibXML;
@@ -150,6 +150,8 @@ This is a benchmark result by tools/benchmark.pl
 Tokuhiro Matsuno E<lt>tokuhirom  slkjfd gmail.comE<gt>
 
 Tatsuhiko Miyagawa E<lt>miyagawa@cpan.orgE<gt>
+
+Masahiro Chiba
 
 =head1 THANKS TO
 
