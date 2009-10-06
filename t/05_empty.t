@@ -2,7 +2,7 @@ use strict;
 use Test::Base;
 use HTML::TreeBuilder::LibXML;
 
-my @tests = ("foo", "bar\nbaz", "   ", "   \n   ");
+my @tests = ("foo", "bar\nbaz", "   ", "   \n   ", "");
 plan tests => 3 * @tests;
 
 for my $t (@tests) {
