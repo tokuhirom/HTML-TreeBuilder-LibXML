@@ -33,6 +33,7 @@ sub main {
     _no_eof($klass);
     _look_down($klass);
     _id($klass);
+    _attr($klass);
 }
 
 sub _simple {
@@ -159,6 +160,24 @@ sub _id {
 
     $tree = $tree->delete;
 }
+
+sub _attr {
+    my $klass = shift;
+
+    my $tree = $klass->new;
+    $tree->parse($HTML);
+    $tree->eof;
+
+    my ($a) = $tree->look_down('_tag' => 'a');
+    is $a->attr('href'), 'http://wassr.jp/';
+    $a->attr('href', 'http://ficia.com/');
+    is strip($a->as_HTML), '<a href="http://ficia.com/">wassr</a>';
+    $a->attr('href', undef);
+    is strip($a->as_HTML), '<a>wassr</a>';
+
+    $tree = $tree->delete;
+}
+
 
 sub strip {
     local $_ = shift;

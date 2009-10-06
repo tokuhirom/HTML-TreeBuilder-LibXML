@@ -10,7 +10,14 @@ sub new {
 }
 
 sub attr {
-    my ($self, $key) = @_;
+    my ($self, $key, $value) = @_;
+    if (@_ == 3) {
+        if (defined $value) {
+            $self->{node}->setAttribute (lc $key, $value);
+        } else {
+            $self->{node}->removeAttribute(lc $key);
+        }
+    }
     $self->{node}->getAttribute(lc $key);
 }
 
