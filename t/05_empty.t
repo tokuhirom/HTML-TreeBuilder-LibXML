@@ -1,5 +1,6 @@
 use strict;
-use Test::Base;
+use warnings;
+use Test::More;
 use HTML::TreeBuilder::LibXML;
 
 my @tests = ("foo", "bar\nbaz", "   ", "   \n   ", "");
