@@ -22,9 +22,12 @@ sub attr {
 }
 
 sub isTextNode {
-    my ($self, ) = @_;
+    my $self = shift;
     $self->{node}->isa('XML::LibXML::Text');
 }
+
+# The analog of HTML::TreeBuilder::XPath::getValue for comment nodes
+*getValue = \&as_text;
 
 sub string_value {
     $_[0]->{node}->textContent;
