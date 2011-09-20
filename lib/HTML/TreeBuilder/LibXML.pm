@@ -5,6 +5,7 @@ our $VERSION = '0.13';
 use Carp ();
 use base 'HTML::TreeBuilder::LibXML::Node';
 use XML::LibXML;
+use 5.008001;
 
 sub new {
     my $class = shift;
