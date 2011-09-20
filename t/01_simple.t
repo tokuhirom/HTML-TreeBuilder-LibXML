@@ -6,7 +6,7 @@ use Data::Dumper;
 
 my $original_ok = eval 'use HTML::TreeBuilder::XPath; 1';
 
-my $tests = 31;
+my $tests = 32;
 $tests *= 2 if $original_ok;
 plan tests => $tests;
 
@@ -40,10 +40,12 @@ sub _simple {
     my $klass = shift;
 
     my $tree = $klass->new;
+    $tree->store_comments(1);
     $tree->parse(q{
         <html>
             <head><title>test</title></head>
             <body>
+            <!-- Test comment -->
             <a href="http://wassr.jp/">wassr</a>
             <div>
                 <a href="http://mixi.jp/">mixi</a>
@@ -77,9 +79,11 @@ sub _simple {
     is $nodes[2]->as_text_trimmed, 'twitter';
 
     $nodes[1]->delete;
-    like strip($tree->as_HTML), qr{<html><head><title>test</title></head><body><a href="http://wassr.jp/">wassr</a><div>\s+ok.\s+</div><a href="http://twitter.com/">twitter\s*</a></body></html>};
+    like strip($tree->as_HTML), qr{<html><head><title>test</title></head><body><!-- Test comment --><a href="http://wassr.jp/">wassr</a><div>\s+ok.\s+</div><a href="http://twitter.com/">twitter\s*</a></body></html>};
     
     is $tree->findvalue('//a[@href="http://wassr.jp/"]/@href'), 'http://wassr.jp/';
+    
+    is(($tree->findnodes('//comment()'))[0]->getValue, ' Test comment ');
 
     $tree = $tree->delete;
 
