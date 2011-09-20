@@ -8,5 +8,5 @@ requires 'XML::LibXML' => 1.70;
 tests 't/*.t';
 author_tests 'xt';
 
-build_requires 'Test::More';
+test_requires 'Test::More' => 0.98;
 WriteAll;
