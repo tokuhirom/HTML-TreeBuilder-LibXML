@@ -1,5 +1,14 @@
 Revision history for Perl extension HTML::TreeBuilder::LibXML
 
+0.13
+     * Added 'getValue' node's method as in HTML::TreeBuilder::XPath for
+       comment nodes in web-scraper module
+     * Added dummy method 'store_comments' as in HTML::TreeBuilder
+       for web-scraper module (for comment nodes) and for
+       HTML::TreeBuilder::XPath working in tests with comment nodes
+     * Now this module requires HTML::TreeBuilder::XPath v.0.14 (before 0.14
+       there getValue() didn't work for comment nodes)
+
 0.12
 
      * no Test::Base(tokuhirom)
