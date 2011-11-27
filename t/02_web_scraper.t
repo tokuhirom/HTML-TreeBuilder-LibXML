@@ -4,7 +4,9 @@ use Test::More;
 use HTML::TreeBuilder::LibXML;
 
 plan skip_all => "this test requires Web::Scraper" unless eval "use Web::Scraper; 1";
-plan tests => 2*3;
+plan tests => 2*3+1;
+
+can_ok 'HTML::TreeBuilder::LibXML', 'ignore_unknown';
 
 my $html = <<'...';
 <html>

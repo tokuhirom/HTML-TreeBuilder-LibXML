@@ -89,6 +89,7 @@ sub replace_original {
 
 # The HTML::TreeBuilder has this method and it is needed to us for web-scraper module
 sub store_comments { }
+sub ignore_unknown { }
 
 package # hide from cpan
     HTML::TreeBuilder::LibXML::Destructor;
