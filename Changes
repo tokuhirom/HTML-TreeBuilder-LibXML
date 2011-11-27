@@ -1,5 +1,10 @@
 Revision history for Perl extension HTML::TreeBuilder::LibXML
 
+0.14
+
+    * added workaround for Web::Scraper 0.36
+      (tokuhirom)
+
 0.13
      * Added 'getValue' node's method as in HTML::TreeBuilder::XPath for
        comment nodes in web-scraper module
