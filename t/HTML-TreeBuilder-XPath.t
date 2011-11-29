@@ -3,7 +3,7 @@
 
 #########################
 
-use Test::More tests => 19;
+use Test::More tests => 26;
 BEGIN { use_ok('HTML::TreeBuilder::XPath') };
 use HTML::TreeBuilder::LibXML;
 HTML::TreeBuilder::LibXML->replace_original;
@@ -44,11 +44,11 @@ TODO: {
     is( $html->findvalue( '//p[@id="toto"]/a'), 'linksmore links', '2 siblings');
     is( $html->findvalue( '//p[@id="toto"]/a[1]|//p[@id="toto"]/a[2]'), 'linksmore links', '2 siblings');
 
-    is( $html->findvalue( '//@id[.="toto"]|//*[@id="bar"]|/html/body/h1|//@id[.="toto"]/../a[1]|//*[@id="foo"]'), 'Example headertotolinksspansseveral', 
+    is( $html->findvalue( '//@id[.="toto"]|//*[@id="bar"]|/html/body/h1|//@id[.="toto"]/../a[1]|//*[@id="foo"]'), 'Example headertotolinksspansseveral',
                         'query on various types of nodes');
 };
 
-is( $html->findvalue( './/*[@bgcolor="0"]'),'0', 'one child has a value of "0"'); 
+is( $html->findvalue( './/*[@bgcolor="0"]'),'0', 'one child has a value of "0"');
 
 {
 my $p= $html->findnodes( '//p[@id="toto"]')->[0];
@@ -60,6 +60,25 @@ is( $html->findvalue('id("foo")'), 'spans', 'id function');
 is( $html->findvalue('id("foo")/@id'), 'foo', 'id function (attribute)');
 }
 
+is( $html->exists( '//p[@id]/@id'  ) , 1 , 'does exist');
+is( $html->exists( '//p[@id]/@id2' ) , 0 , 'does not exist' );
+
+{
+my @p = $html->find( 'p' );
+is( scalar @p , 4 , '4 <p>');
+is( $p[0]->getValue , 'Intro p1' , '<p>1');
+
+my( $bq ) = $html->find( 'blockquote' );
+is( $bq->getValue , 0 , 'bq' );
+}
+
+{
+my @val = $html->findvalues('//span[@class="myspan"]');
+is_deeply( \@val , [ qw/ spans several / ] , 'findvalues on multi element');
+
+my( $val2 ) = $html->findvalues('//*[@id="bq"]');
+is( $val2 , 0 , 'findvalues on unique element')
+}
 __END__
 /html/body/h1            1 Example header
 //@id[.="toto"]          2 toto

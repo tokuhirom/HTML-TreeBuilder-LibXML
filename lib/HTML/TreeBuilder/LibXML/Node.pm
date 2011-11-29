@@ -78,6 +78,25 @@ sub isa {
     $klass eq 'HTML::Element' ? 1 : UNIVERSAL::isa($self, $klass);
 }
 
+sub exists {
+    my( $self , $xpath ) = @_;
+
+    $self->_eof_or_die unless $self->{node};
+    my @nodes = $self->{node}->findnodes( $xpath );
+    return scalar( @nodes ) ? 1 : 0;
+}
+
+sub find {
+    my( $self , $elem ) = @_;
+
+    $self->_eof_or_die unless $self->{node};
+
+    my @nodes = $self->{node}->getElementsByTagName( $elem );
+    @nodes = map { HTML::TreeBuilder::LibXML::Node->new( $_ ) } @nodes;
+
+    wantarray ? @nodes : \@nodes;
+}
+
 sub findnodes {
     my ($self, $xpath) = @_;
 
@@ -86,11 +105,24 @@ sub findnodes {
     @nodes = map { HTML::TreeBuilder::LibXML::Node->new($_) } @nodes;
     wantarray ? @nodes : \@nodes;
 }
+
+*findnodes_as_string  = \&findvalue;
+*findnodes_as_strings = \&findvalues;
+
 sub findvalue {
     my ($self, $xpath) = @_;
 
     $self->_eof_or_die unless $self->{node};
     $self->{node}->findvalue( $xpath );
+}
+
+sub findvalues {
+    my( $self , $xpath ) = @_;
+
+    $self->_eof_or_die unless $self->{node};
+    my $nodes = $self->{node}->find( $xpath );
+    my @nodes = map { $_->textContent } $nodes->get_nodelist;
+    wantarray ? @nodes : \@nodes;
 }
 
 sub clone {
@@ -200,15 +232,20 @@ HTML::TreeBuilder::LibXML::Node - HTML::Element compatible API for HTML::TreeBui
   my $clone  = $node->clone;
   $node->delete;
   $node->look_down(@args);
-  my %attr   = $node->all_attr;
-  my %attr   = $node->all_external_attr;
-  my @names  = $node->all_attr_names;
-  my @names  = $node->all_external_attr_names;
+  my %attr     = $node->all_attr;
+  my %attr     = $node->all_external_attr;
+  my @names    = $node->all_attr_names;
+  my @names    = $node->all_external_attr_names;
+  my @elements = $node->find($elem_name);
 
   # HTML::TreeBuilder::XPath
+  my @nodes  = $node->find($xpath)
   my @nodes  = $node->findnodes($xpath);
   my $value  = $node->findvalue($xpath);
+  my @values = $node->findvalues($xpath);
   $node->isTextNode;
   my $child = $node->getFirstChild;
+  my $bool  = $node->exists($xpath);
 
-
+  my $value  = $node->findnodes_as_string($xpath);
+  my @values = $node->findnodes_as_strings($xpath);
