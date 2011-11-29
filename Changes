@@ -1,5 +1,16 @@
 Revision history for Perl extension HTML::TreeBuilder::LibXML
 
+{{NEXT}}
+
+    * Add additional methods to better match
+      HTML::TreeBuilder::XPath::Node API:
+      - exists($xpath)
+      - find($elem_name)
+      - findvalues($xpath)
+      - findnodes_as_string($xpath)
+      - findnodes_as_strings($xpath)
+      (genehack)
+
 0.14
 
     * added workaround for Web::Scraper 0.36
