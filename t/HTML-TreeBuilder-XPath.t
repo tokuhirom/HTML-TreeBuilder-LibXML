@@ -3,7 +3,7 @@
 
 #########################
 
-use Test::More tests => 19;
+use Test::More tests => 21;
 BEGIN { use_ok('HTML::TreeBuilder::XPath') };
 use HTML::TreeBuilder::LibXML;
 HTML::TreeBuilder::LibXML->replace_original;
@@ -59,6 +59,9 @@ is( $p->findvalue( './a[2]|./a[1]'), 'linksmore links', 'query on siblings of an
 is( $html->findvalue('id("foo")'), 'spans', 'id function');
 is( $html->findvalue('id("foo")/@id'), 'foo', 'id function (attribute)');
 }
+
+is( $html->exists( '//p[@id]/@id'  ) , 1 , 'does exist');
+is( $html->exists( '//p[@id]/@id2' ) , 0 , 'does not exist' );
 
 __END__
 /html/body/h1            1 Example header

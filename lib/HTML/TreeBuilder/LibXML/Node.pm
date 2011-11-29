@@ -78,6 +78,14 @@ sub isa {
     $klass eq 'HTML::Element' ? 1 : UNIVERSAL::isa($self, $klass);
 }
 
+sub exists {
+    my( $self , $xpath ) = @_;
+
+    $self->_eof_or_die unless $self->{node};
+    my @nodes = $self->{node}->findnodes( $xpath );
+    return scalar( @nodes ) ? 1 : 0;
+}
+
 sub findnodes {
     my ($self, $xpath) = @_;
 
@@ -210,5 +218,4 @@ HTML::TreeBuilder::LibXML::Node - HTML::Element compatible API for HTML::TreeBui
   my $value  = $node->findvalue($xpath);
   $node->isTextNode;
   my $child = $node->getFirstChild;
-
-
+  my $bool  = $node->exists($xpath);
