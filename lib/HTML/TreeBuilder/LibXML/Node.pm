@@ -86,6 +86,17 @@ sub exists {
     return scalar( @nodes ) ? 1 : 0;
 }
 
+sub find {
+    my( $self , $elem ) = @_;
+
+    $self->_eof_or_die unless $self->{node};
+
+    $self->{html} = HTML::TreeBuilder->new();
+    $self->{html}->parse_content( $self->as_HTML );
+
+    return $self->{html}->find($elem);
+}
+
 sub findnodes {
     my ($self, $xpath) = @_;
 
@@ -208,12 +219,14 @@ HTML::TreeBuilder::LibXML::Node - HTML::Element compatible API for HTML::TreeBui
   my $clone  = $node->clone;
   $node->delete;
   $node->look_down(@args);
-  my %attr   = $node->all_attr;
-  my %attr   = $node->all_external_attr;
-  my @names  = $node->all_attr_names;
-  my @names  = $node->all_external_attr_names;
+  my %attr     = $node->all_attr;
+  my %attr     = $node->all_external_attr;
+  my @names    = $node->all_attr_names;
+  my @names    = $node->all_external_attr_names;
+  my @elements = $node->find($elem_name);
 
   # HTML::TreeBuilder::XPath
+  my @nodes  = $node->find($xpath)
   my @nodes  = $node->findnodes($xpath);
   my $value  = $node->findvalue($xpath);
   $node->isTextNode;
