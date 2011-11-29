@@ -105,11 +105,24 @@ sub findnodes {
     @nodes = map { HTML::TreeBuilder::LibXML::Node->new($_) } @nodes;
     wantarray ? @nodes : \@nodes;
 }
+
+*findnodes_as_string  = \&findvalue;
+*findnodes_as_strings = \&findvalues;
+
 sub findvalue {
     my ($self, $xpath) = @_;
 
     $self->_eof_or_die unless $self->{node};
     $self->{node}->findvalue( $xpath );
+}
+
+sub findvalues {
+    my( $self , $xpath ) = @_;
+
+    $self->_eof_or_die unless $self->{node};
+    my $nodes = $self->{node}->find( $xpath );
+    my @nodes = map { $_->textContent } $nodes->get_nodelist;
+    wantarray ? @nodes : \@nodes;
 }
 
 sub clone {
@@ -229,6 +242,10 @@ HTML::TreeBuilder::LibXML::Node - HTML::Element compatible API for HTML::TreeBui
   my @nodes  = $node->find($xpath)
   my @nodes  = $node->findnodes($xpath);
   my $value  = $node->findvalue($xpath);
+  my @values = $node->findvalues($xpath);
   $node->isTextNode;
   my $child = $node->getFirstChild;
   my $bool  = $node->exists($xpath);
+
+  my $value  = $node->findnodes_as_string($xpath);
+  my @values = $node->findnodes_as_strings($xpath);
