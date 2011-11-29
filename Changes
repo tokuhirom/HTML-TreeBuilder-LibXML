@@ -1,6 +1,6 @@
 Revision history for Perl extension HTML::TreeBuilder::LibXML
 
-{{NEXT}}
+0.15
 
     * Add additional methods to better match
       HTML::TreeBuilder::XPath::Node API:
