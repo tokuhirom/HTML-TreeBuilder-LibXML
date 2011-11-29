@@ -91,10 +91,10 @@ sub find {
 
     $self->_eof_or_die unless $self->{node};
 
-    $self->{html} = HTML::TreeBuilder->new();
-    $self->{html}->parse_content( $self->as_HTML );
+    my @nodes = $self->{node}->getElementsByTagName( $elem );
+    @nodes = map { HTML::TreeBuilder::LibXML::Node->new( $_ ) } @nodes;
 
-    return $self->{html}->find($elem);
+    wantarray ? @nodes : \@nodes;
 }
 
 sub findnodes {

@@ -68,7 +68,7 @@ my @p = $html->find( 'p' );
 is( scalar @p , 4 , '4 <p>');
 is( $p[0]->getValue , 'Intro p1' , '<p>1');
 
-my $bq = $html->find( 'blockquote' );
+my( $bq ) = $html->find( 'blockquote' );
 is( $bq->getValue , 0 , 'bq' );
 }
 
