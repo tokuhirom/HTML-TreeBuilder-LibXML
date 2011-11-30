@@ -3,7 +3,7 @@
 
 #########################
 
-use Test::More tests => 28;
+use Test::More tests => 29;
 BEGIN { use_ok('HTML::TreeBuilder::XPath') };
 use HTML::TreeBuilder::LibXML;
 HTML::TreeBuilder::LibXML->replace_original;
@@ -84,6 +84,11 @@ is( $val2 , 0 , 'findvalues on unique element')
 my @children = $html->findnodes( '//p[@id="toto"]')->[0]->childNodes;
 is( scalar @children , 11 , 'child count');
 is( $children[1]->getValue , 'links' , 'first child');
+}
+
+{
+my @filter_nodes = $html->findnodes_filter( '//p' , sub { shift->getValue =~ /Intro / } );
+is( scalar @filter_nodes , 3 , '3 <p>' );
 }
 
 __END__

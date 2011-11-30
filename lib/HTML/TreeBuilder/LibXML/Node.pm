@@ -109,6 +109,18 @@ sub findnodes {
 *findnodes_as_string  = \&findvalue;
 *findnodes_as_strings = \&findvalues;
 
+sub findnodes_filter {
+    my( $self , $xpath , $callback ) = @_;
+
+    Carp::croak "Second argument must be coderef"
+          unless $callback and ref $callback eq 'CODE';
+
+    my @nodes = $self->findnodes( $xpath );
+    @nodes = grep { $callback->($_) } @nodes;
+
+    wantarray ? @nodes : \@nodes;
+}
+
 sub findvalue {
     my ($self, $xpath) = @_;
 
