@@ -148,6 +148,15 @@ sub getFirstChild {
     __PACKAGE__->new($self->{node}->getFirstChild);
 }
 
+sub childNodes {
+    my $self = shift;
+
+    $self->_eof_or_die unless $self->{node};
+    my @nodes = $self->{node}->childNodes;
+    @nodes = map { __PACKAGE__->new($_) } @nodes;
+    wantarray ? @nodes : \@nodes;
+}
+
 sub look_down {
     my $self = shift;
     my @args = @_;
