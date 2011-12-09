@@ -3,7 +3,7 @@
 
 #########################
 
-use Test::More tests => 29;
+use Test::More tests => 31;
 BEGIN { use_ok('HTML::TreeBuilder::XPath') };
 use HTML::TreeBuilder::LibXML;
 HTML::TreeBuilder::LibXML->replace_original;
@@ -89,6 +89,14 @@ is( $children[1]->getValue , 'links' , 'first child');
 {
 my @filter_nodes = $html->findnodes_filter( '//p' , sub { shift->getValue =~ /Intro / } );
 is( scalar @filter_nodes , 3 , '3 <p>' );
+}
+
+{
+my ($div ) = $html->findnodes( '//div[@class="intro"]' );
+my $left = $div->left;
+is( $left->tag , 'h1' );
+my $right = $div->right;
+is( $right->tag , 'p' );
 }
 
 __END__

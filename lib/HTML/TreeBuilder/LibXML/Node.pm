@@ -169,6 +169,22 @@ sub childNodes {
     wantarray ? @nodes : \@nodes;
 }
 
+sub left {
+    my $self = shift;
+
+    $self->_eof_or_die unless $self->{node};
+    my $prev = $self->{node}->previousNonBlankSibling;
+    return $prev ? __PACKAGE__->new( $prev ) : undef;
+}
+
+sub right {
+    my $self = shift;
+
+    $self->_eof_or_die unless $self->{node};
+    my $next = $self->{node}->nextNonBlankSibling;
+    return $next ? __PACKAGE__->new( $next ) : undef;
+}
+
 sub look_down {
     my $self = shift;
     my @args = @_;
@@ -252,6 +268,8 @@ HTML::TreeBuilder::LibXML::Node - HTML::Element compatible API for HTML::TreeBui
   my $id     = $node->id;
   my $clone  = $node->clone;
   $node->delete;
+  my $prev_sib = $node->left;
+  my $next_sib = $node->right;
   $node->look_down(@args);
   my %attr     = $node->all_attr;
   my %attr     = $node->all_external_attr;
