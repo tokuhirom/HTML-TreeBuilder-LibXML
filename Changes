@@ -1,5 +1,14 @@
 Revision history for Perl extension HTML::TreeBuilder::LibXML
 
+0.16
+
+
+    commit 07b40205fd03564d476eff7675e9f19196939f2f
+    Author: Oleg G <verdrehung@gmail.com>
+    Date:   Sat Mar 31 13:26:11 2012 +0700
+
+    added few methods to support Web::Query
+
 0.15
 
     * Add additional methods to better match
