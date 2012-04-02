@@ -48,6 +48,12 @@ sub parse {
     $self->{_content} .= $html;
 }
 
+sub parse_content {
+    my $self = shift;
+    $self->parse($_[0]);
+    $self->eof;
+}
+
 sub parse_file {
     my $self = shift;
     my $doc  = $self->_parser->parse_html_file(@_);
@@ -68,6 +74,10 @@ sub _documentElement {
         $elem->appendChild($doc->createElement("body"));
         $elem;
     };
+}
+
+sub elementify {
+    bless shift, 'HTML::TreeBuilder::LibXML::Node';
 }
 
 sub replace_original {
