@@ -1,5 +1,10 @@
 Revision history for Perl extension HTML::TreeBuilder::LibXML
 
+0.17
+
+    handle /(de)?objectify_text/ for <script> extraction
+    (Stanislaw Pusep)
+
 0.16
 
 
