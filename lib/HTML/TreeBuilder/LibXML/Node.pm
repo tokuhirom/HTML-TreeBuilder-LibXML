@@ -17,6 +17,8 @@ sub attr {
         } else {
             $self->{node}->removeAttribute(lc $key);
         }
+    } elsif (@_ == 2 and lc $key eq 'text') {
+        return $self->{node}->textContent;
     }
     $self->{node}->getAttribute(lc $key);
 }
@@ -46,6 +48,8 @@ sub as_trimmed_text {
 }
 sub as_text_trimmed { shift->as_trimmed_text(@_) } # alias
 
+sub objectify_text { }
+sub deobjectify_text { }
 
 sub as_XML {
     $_[0]->{node}->toString;
@@ -175,6 +179,8 @@ sub look_down {
             shift @args;
         }
     }
+
+    $xpath =~ s/~text\b/text()/g;
 
     my @nodes = $self->findnodes($xpath);
     my @wants = grep {

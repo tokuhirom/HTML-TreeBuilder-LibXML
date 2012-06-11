@@ -6,7 +6,7 @@ use Data::Dumper;
 
 my $original_ok = eval 'use HTML::TreeBuilder::XPath; 1';
 
-my $tests = 32;
+my $tests = 34;
 $tests *= 2 if $original_ok;
 plan tests => $tests;
 
@@ -116,6 +116,7 @@ sub _look_down {
         <html>
             <head><title>test</title></head>
             <body>
+            <script>alert("hello world")</script>
             <a href="http://wassr.jp/">wassr</a>
             <div>
                 <a href="http://mixi.jp/">mixi</a>
@@ -142,6 +143,13 @@ sub _look_down {
     {
         my $none = $tree->look_down('_tag' => 'a', sub { 0 });
         ok !defined $none, "none because sub ref returns 0";
+    }
+    {
+        $tree->elementify;
+        $tree->objectify_text;
+        my @nodes = $tree->look_down('_tag' => '~text', sub { $_[0]->attr('text') =~ /alert/ });
+        is scalar(@nodes), 1;
+        is $nodes[0]->attr('text'), 'alert("hello world")';
     }
 
     $tree = $tree->delete;
