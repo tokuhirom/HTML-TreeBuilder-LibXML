@@ -3,7 +3,7 @@
 
 #########################
 
-use Test::More tests => 26;
+use Test::More tests => 31;
 BEGIN { use_ok('HTML::TreeBuilder::XPath') };
 use HTML::TreeBuilder::LibXML;
 HTML::TreeBuilder::LibXML->replace_original;
@@ -79,6 +79,26 @@ is_deeply( \@val , [ qw/ spans several / ] , 'findvalues on multi element');
 my( $val2 ) = $html->findvalues('//*[@id="bq"]');
 is( $val2 , 0 , 'findvalues on unique element')
 }
+
+{
+my @children = $html->findnodes( '//p[@id="toto"]')->[0]->childNodes;
+is( scalar @children , 11 , 'child count');
+is( $children[1]->getValue , 'links' , 'first child');
+}
+
+{
+my @filter_nodes = $html->findnodes_filter( '//p' , sub { shift->getValue =~ /Intro / } );
+is( scalar @filter_nodes , 3 , '3 <p>' );
+}
+
+{
+my ($div ) = $html->findnodes( '//div[@class="intro"]' );
+my $left = $div->left;
+is( $left->tag , 'h1' );
+my $right = $div->right;
+is( $right->tag , 'p' );
+}
+
 __END__
 /html/body/h1            1 Example header
 //@id[.="toto"]          2 toto
