@@ -254,6 +254,16 @@ sub _eof_or_die {
     }
 }
 
+sub matches {
+    my ($self, $xpath) = @_;    
+    
+    foreach ($self->{node}->ownerDocument->findnodes($xpath)) {
+        return 1 if $_->isEqual($self->{node});
+    }    
+    
+    return;
+}
+
 1;
 
 __END__
