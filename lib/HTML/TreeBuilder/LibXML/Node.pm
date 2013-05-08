@@ -317,6 +317,30 @@ sub parent {
 
 }
 
+sub postinsert {
+    my $self   = shift;    
+    my @nodes  = map { $_->{node} } @_;
+    my $parent = $self->{node}->parentNode;
+    
+    $parent->insertAfter($_, $self->{node})
+        foreach reverse @nodes;
+    
+    $self;    
+}
+
+sub preinsert {
+    my $self   = shift;    
+    my @nodes  = map { $_->{node} } @_;
+    my $parent = $self->{node}->parentNode;
+    
+    $parent->insertBefore($_, $self->{node})
+        foreach @nodes;
+    
+    $self;    
+}
+
+
+
 1;
 
 __END__
