@@ -254,6 +254,29 @@ sub _eof_or_die {
     }
 }
 
+sub parent {
+    my $self = shift;
+    if (@_) {    
+        # set        
+        if (defined $_[0]) {
+            Carp::croak "an element can't be made its own parent"
+                if ref $_[0]->{node}->isEqual($self->{node});    # sanity
+                
+            $_[0]->{node}->appendChild($self->{node});                        
+        }
+        else {
+            # unset
+            $self->{node}->unbindNode;    
+        }
+                
+    }
+    else {
+        # get
+        my $parent = $self->{node}->parentNode;
+        return ref $parent ne 'XML::LibXML::DocumentFragment' ? ref($self)->new($parent) : undef;
+    }
+}
+
 1;
 
 __END__
