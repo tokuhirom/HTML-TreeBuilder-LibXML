@@ -159,6 +159,11 @@ sub delete {
     $self->{node}->unbindNode();
 }
 
+sub delete_content {
+    my ($self) = @_;
+    $self->{node}->removeChildNodes;
+}
+
 sub getFirstChild {
     my $self = shift;
     __PACKAGE__->new($self->{node}->getFirstChild);
