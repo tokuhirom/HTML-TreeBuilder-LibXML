@@ -173,6 +173,12 @@ sub childNodes {
     wantarray ? @nodes : \@nodes;
 }
 
+sub content_list {
+    my ($self) = @_;
+    my @nodes = $self->childNodes;
+    @nodes;
+}
+
 sub left {
     my $self = shift;
 
