@@ -184,6 +184,17 @@ sub content_list {
     @nodes;
 }
 
+sub push_content {
+    my $self = shift;
+    
+    foreach (@_) {
+        ref $_ ? $self->{node}->appendChild($_)
+               : $self->{node}->appendText($_);
+    }
+    
+    $self;    
+}
+
 sub left {
     my $self = shift;
 
