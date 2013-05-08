@@ -56,8 +56,9 @@ sub parse_content {
 
 sub parse_file {
     my $self = shift;
-    my $doc  = $self->_parser->parse_html_file(@_);
-    $self->{node} = $self->_documentElement($doc);
+    open (my $fh, $_[0]) or die "Can't open $_[0]: $!\n";
+    my $content = do { local $/;  <$fh> };
+    $self->parse_content($content);
 }
 
 sub eof {
