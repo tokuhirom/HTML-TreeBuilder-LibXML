@@ -154,6 +154,12 @@ sub clone {
     return $cloned;
 }
 
+sub clone_list {
+    my $class = shift;
+    my @clones = map { $_->clone } @_;
+    @clones;    
+}
+
 sub delete {
     my $self = shift;
     $self->{node}->unbindNode();
