@@ -188,7 +188,7 @@ sub push_content {
     my $self = shift;
     
     foreach (@_) {
-        ref $_ ? $self->{node}->appendChild($_)
+        ref $_ ? $self->{node}->appendChild($_->{node})
                : $self->{node}->appendText($_);
     }
     
