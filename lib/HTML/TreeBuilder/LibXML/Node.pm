@@ -201,6 +201,24 @@ sub push_content {
     $self;    
 }
 
+sub unshift_content {
+    my $self = shift;
+    
+    return $self->push_content(@_) 
+        unless $self->{node}->hasChildNodes;
+
+    my $node = $self->{node}; 
+    my $doc = $node->ownerDocument;
+    my $first_child = $node->firstChild;
+    
+    foreach (@_) {
+        ref $_ ? $node->insertBefore($_->{node}, $first_child)
+               : $node->insertBefore($doc->createTextNode($_), $first_child);
+    }
+    
+    $self;    
+}
+
 sub left {
     my $self = shift;
 
