@@ -84,22 +84,39 @@ sub elementify {
 
 sub guts {
     my ($self, $destructive) = @_;
-    
-    #warn "# me: ". $self->{node};
-        
+            
     my @out = $self->{_implicit_html} ? $self->{node}->findnodes('/html/body/*')
                                       : $self->{node};
 
-    
-    #warn "# OUT: @out";
-    
+    if ($destructive) {
+        foreach (@out) {
+            my $doc = XML::LibXML->createDocument;
+            $doc->adoptNode($_); # node will unbind from current document
+            $doc->setDocumentElement($_);   
+        }        
+    }
+        
     return map { HTML::TreeBuilder::LibXML::Node->new($_) } @out if wantarray;    # one simple normal case.
     return unless @out;
-    return HTML::TreeBuilder::LibXML::Node->new($out[0]) if @out == 1 and ref( $out[0] );
-    my $div = XML::LibXML::Element->new('div'); # TODO put the _implicit flag somewhere, to be compatible with HTML::TreeBuilders
+    
+    my $doc = XML::LibXML->createDocument;
+
+    if (@out == 1) {
+        $doc->adoptNode($out[0]);
+        $doc->setDocumentElement($out[0]);        
+        return HTML::TreeBuilder::LibXML::Node->new($out[0]);    
+    }    
+    
+    my $div = $doc->createElement('div'); # TODO put the _implicit flag somewhere, to be compatible with HTML::TreeBuilders
+    $doc->setDocumentElement($div);    
     $div->appendChild($_) for @out;
-    $div->setOwnerDocument(XML::LibXML->createDocument( "1.0", "UTF-8" ));
+    
     return HTML::TreeBuilder::LibXML::Node->new($div);    
+}
+
+sub disembowel {
+    my ($self) = @_;
+    $self->guts(1);
 }
 
 sub replace_original {
