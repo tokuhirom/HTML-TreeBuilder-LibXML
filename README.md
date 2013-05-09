@@ -44,7 +44,7 @@ This is a benchmark result by tools/benchmark.pl
 
 # AUTHOR
 
-Tokuhiro Matsuno <tokuhirom  slkjfd gmail.com>
+Tokuhiro Matsuno <tokuhirom@gmail.com>
 
 Tatsuhiko Miyagawa <miyagawa@cpan.org>
 

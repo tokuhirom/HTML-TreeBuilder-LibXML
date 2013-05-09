@@ -1,7 +1,7 @@
 {
    "abstract" : "HTML::TreeBuilder and XPath compatible interface with libxml",
    "author" : [
-      "Tokuhiro Matsuno <tokuhirom  slkjfd gmail.com>"
+      "Tokuhiro Matsuno <tokuhirom@gmail.com>"
    ],
    "dynamic_config" : 0,
    "generated_by" : "Minilla/v0.4.2, CPAN::Meta::Converter version 2.120921",
@@ -70,7 +70,7 @@
          "web" : "https://github.com/tokuhirom/HTML-TreeBuilder-LibXML"
       }
    },
-   "version" : "0.17",
+   "version" : "0.18",
    "x_contributors" : [
       "Masahiro Chiba <nihen@megabbs.com>",
       "kimura.hideo <kimurahideo@Administrator.local>",
@@ -79,7 +79,6 @@
       "John SJ Anderson <johna@farematrix.com>",
       "Oleg G <verdrehung@gmail.com>",
       "Stanislaw Pusep <creaktive@gmail.com>",
-      "Carlos Fernando Avila Gratz <cafe@q1software.com>",
-      "Tokuhiro Matsuno <tokuhirom@gmail.com>"
+      "Carlos Fernando Avila Gratz <cafe@q1software.com>"
    ]
 }
