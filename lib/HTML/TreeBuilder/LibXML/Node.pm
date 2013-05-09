@@ -210,9 +210,12 @@ sub replace_with {
     
     $parent->insertBefore($_, $node)
         foreach @nodes;    
+
+    my $newdoc = XML::LibXML->createDocument;
+    $newdoc->adoptNode($self->{node});
+    $newdoc->setDocumentElement($self->{node});
     
-    $node->unbindNode;
-    $node;    
+    $self;    
 }
 
 sub push_content {
