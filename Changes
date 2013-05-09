@@ -2,6 +2,25 @@ Revision history for Perl extension HTML::TreeBuilder::LibXML
 
 {{$NEXT}}
 
+0.18 2013-05-09T20:49:04Z
+
+    - implemented all node methods needed for Web::Query::LibXML to work
+      - clone_list
+      - detach
+      - delete_content
+      - content_list
+      - replace_with
+      - push_content
+      - unshift_content
+      - postinsert
+      - preinsert
+      - disembowel (HTML::TreeBuilder::LibXML)
+      (cafe01)
+      
+    - modified parse_file() to read file content, then call parse_content()
+      - thats because parse_content() will detect (heuristically) when the parser will add implict <html><body> tags, so guts() can work properly.
+      (cafe01)
+
 0.18 2013-05-09T01:27:46Z
 
     - implemented matches(), parent(), guts() node method
