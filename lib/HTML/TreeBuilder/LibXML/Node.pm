@@ -154,9 +154,30 @@ sub clone {
     return $cloned;
 }
 
+sub clone_list {
+    my $class = shift;
+    my @clones = map { $_->clone } @_;
+    @clones;    
+}
+
+sub detach {
+    my $self = shift;
+    my $parent = $self->parent;
+    #$self->{node}->unbindNode();
+    my $doc = XML::LibXML->createDocument;
+    $doc->adoptNode($self->{node});
+    $doc->setDocumentElement($self->{node});    
+    $parent;
+}
+
 sub delete {
     my $self = shift;
     $self->{node}->unbindNode();
+}
+
+sub delete_content {
+    my ($self) = @_;
+    $self->{node}->removeChildNodes;
 }
 
 sub getFirstChild {
@@ -171,6 +192,59 @@ sub childNodes {
     my @nodes = $self->{node}->childNodes;
     @nodes = map { __PACKAGE__->new($_) } @nodes;
     wantarray ? @nodes : \@nodes;
+}
+
+sub content_list {
+    my ($self) = @_;
+    my @nodes = $self->childNodes;
+    @nodes;
+}
+
+sub replace_with {
+    my $self = shift;
+    
+    my $node   = $self->{node}; 
+    my $doc    = $node->ownerDocument;
+    my $parent = $node->parentNode;        
+    my @nodes  = map { ref $_ ? $_->{node} : $doc->createTextNode($_) } @_;
+    
+    $parent->insertBefore($_, $node)
+        foreach @nodes;    
+
+    my $newdoc = XML::LibXML->createDocument;
+    $newdoc->adoptNode($self->{node});
+    $newdoc->setDocumentElement($self->{node});
+    
+    $self;    
+}
+
+sub push_content {
+    my $self = shift;
+    
+    foreach (@_) {
+        ref $_ ? $self->{node}->appendChild($_->{node})
+               : $self->{node}->appendText($_);
+    }
+    
+    $self;    
+}
+
+sub unshift_content {
+    my $self = shift;
+    
+    return $self->push_content(@_) 
+        unless $self->{node}->hasChildNodes;
+
+    my $node = $self->{node}; 
+    my $doc = $node->ownerDocument;
+    my $first_child = $node->firstChild;
+    
+    foreach (@_) {
+        ref $_ ? $node->insertBefore($_->{node}, $first_child)
+               : $node->insertBefore($doc->createTextNode($_), $first_child);
+    }
+    
+    $self;    
 }
 
 sub left {
@@ -288,6 +362,30 @@ sub parent {
     }
 
 }
+
+sub postinsert {
+    my $self   = shift;    
+    my @nodes  = map { $_->{node} } @_;
+    my $parent = $self->{node}->parentNode;
+    
+    $parent->insertAfter($_, $self->{node})
+        foreach reverse @nodes;
+    
+    $self;    
+}
+
+sub preinsert {
+    my $self   = shift;    
+    my @nodes  = map { $_->{node} } @_;
+    my $parent = $self->{node}->parentNode;
+    
+    $parent->insertBefore($_, $self->{node})
+        foreach @nodes;
+    
+    $self;    
+}
+
+
 
 1;
 
