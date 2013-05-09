@@ -11,3 +11,10 @@ nytprof.out
 *.sw[pon]
 *.bak
 *~
+/HTML-TreeBuilder-LibXML-*
+/.build
+/_build_params
+/Build
+!Build/
+!META.json
+!LICENSE

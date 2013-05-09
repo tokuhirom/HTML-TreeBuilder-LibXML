@@ -1,5 +1,7 @@
 Revision history for Perl extension HTML::TreeBuilder::LibXML
 
+{{$NEXT}}
+
 0.17
 
     handle /(de)?objectify_text/ for <script> extraction

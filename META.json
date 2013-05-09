@@ -1,0 +1,85 @@
+{
+   "abstract" : "HTML::TreeBuilder and XPath compatible interface with libxml",
+   "author" : [
+      "Tokuhiro Matsuno <tokuhirom  slkjfd gmail.com>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Minilla/v0.4.2, CPAN::Meta::Converter version 2.120921",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "HTML-TreeBuilder-LibXML",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "xt",
+         "inc",
+         "share",
+         "eg",
+         "examples",
+         "author"
+      ]
+   },
+   "prereqs" : {
+      "configure" : {
+         "requires" : {
+            "CPAN::Meta" : "0",
+            "CPAN::Meta::Prereqs" : "0",
+            "Module::Build" : "0.38"
+         }
+      },
+      "develop" : {
+         "requires" : {
+            "Test::CPAN::Meta" : "0",
+            "Test::MinimumVersion" : "0.10108",
+            "Test::Perl::Critic" : "0",
+            "Test::Pod" : "1.41",
+            "Test::Spellunker" : "v0.2.2"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "HTML::TreeBuilder::XPath" : "0.14",
+            "LWP::UserAgent" : "6",
+            "URI" : "0",
+            "Web::Scraper" : "0",
+            "XML::LibXML" : "1.7",
+            "perl" : "5.008001"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "Test::Exception" : "0",
+            "Test::More" : "0.98"
+         }
+      }
+   },
+   "release_status" : "unstable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/tokuhirom/HTML-TreeBuilder-LibXML/issues"
+      },
+      "homepage" : "https://github.com/tokuhirom/HTML-TreeBuilder-LibXML",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/tokuhirom/HTML-TreeBuilder-LibXML.git",
+         "web" : "https://github.com/tokuhirom/HTML-TreeBuilder-LibXML"
+      }
+   },
+   "version" : "0.17",
+   "x_contributors" : [
+      "Masahiro Chiba <nihen@megabbs.com>",
+      "kimura.hideo <kimurahideo@Administrator.local>",
+      "Tatsuhiko Miyagawa <miyagawa@bulknews.net>",
+      "Perlover <perlover@perlover.com>",
+      "John SJ Anderson <johna@farematrix.com>",
+      "Oleg G <verdrehung@gmail.com>",
+      "Stanislaw Pusep <creaktive@gmail.com>",
+      "Carlos Fernando Avila Gratz <cafe@q1software.com>",
+      "Tokuhiro Matsuno <tokuhirom@gmail.com>"
+   ]
+}
