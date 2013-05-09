@@ -138,6 +138,8 @@ sub DESTROY {
 1;
 __END__
 
+=encoding utf-8
+
 =head1 NAME
 
 HTML::TreeBuilder::LibXML - HTML::TreeBuilder and XPath compatible interface with libxml
@@ -184,7 +186,7 @@ This is a benchmark result by tools/benchmark.pl
 
 =head1 AUTHOR
 
-Tokuhiro Matsuno E<lt>tokuhirom  slkjfd gmail.comE<gt>
+Tokuhiro Matsuno E<lt>tokuhirom@gmail.comE<gt>
 
 Tatsuhiko Miyagawa E<lt>miyagawa@cpan.orgE<gt>
 
