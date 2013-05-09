@@ -18,3 +18,5 @@ nytprof.out
 !Build/
 !META.json
 !LICENSE
+/.includepath
+/.project
