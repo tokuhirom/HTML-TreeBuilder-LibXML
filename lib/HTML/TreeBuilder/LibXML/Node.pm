@@ -190,6 +190,21 @@ sub content_list {
     @nodes;
 }
 
+sub replace_with {
+    my $self = shift;
+    
+    my $node   = $self->{node}; 
+    my $doc    = $node->ownerDocument;
+    my $parent = $node->parentNode;        
+    my @nodes  = map { ref $_ ? $_->{node} : $doc->createTextNode($_) } @_;
+    
+    $parent->insertBefore($_, $node)
+        foreach @nodes;    
+    
+    $node->unbindNode;
+    $node;    
+}
+
 sub push_content {
     my $self = shift;
     
