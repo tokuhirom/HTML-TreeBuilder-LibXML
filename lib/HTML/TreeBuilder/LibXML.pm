@@ -56,7 +56,7 @@ sub parse_content {
 
 sub parse_file {
     my $self = shift;
-    open (my $fh, $_[0]) or die "Can't open $_[0]: $!\n";
+    open (my $fh, '<', $_[0]) or die "Can't open $_[0]: $!\n";
     my $content = do { local $/;  <$fh> };
     $self->parse_content($content);
 }
