@@ -63,6 +63,7 @@ sub parse_file {
 sub eof {
     my ($self, ) = @_;
     $self->{_content} = ' ' if defined $self->{_content} && $self->{_content} eq ''; # HACK
+    $self->{_implicit_html} = 1 unless $self->{_content} =~ /<html/i; # TODO find a better way to know that implicit <html> was inserted
     my $doc = $self->_parser->parse_html_string($self->{_content});
     $self->{node} = $self->_documentElement($doc);
 }
@@ -78,6 +79,26 @@ sub _documentElement {
 
 sub elementify {
     bless shift, 'HTML::TreeBuilder::LibXML::Node';
+}
+
+sub guts {
+    my ($self, $destructive) = @_;
+    
+    #warn "# me: ". $self->{node};
+        
+    my @out = $self->{_implicit_html} ? $self->{node}->findnodes('/html/body/*')
+                                      : $self->{node};
+
+    
+    #warn "# OUT: @out";
+    
+    return map { HTML::TreeBuilder::LibXML::Node->new($_) } @out if wantarray;    # one simple normal case.
+    return unless @out;
+    return HTML::TreeBuilder::LibXML::Node->new($out[0]) if @out == 1 and ref( $out[0] );
+    my $div = XML::LibXML::Element->new('div'); # TODO put the _implicit flag somewhere, to be compatible with HTML::TreeBuilders
+    $div->appendChild($_) for @out;
+    $div->setOwnerDocument(XML::LibXML->createDocument( "1.0", "UTF-8" ));
+    return HTML::TreeBuilder::LibXML::Node->new($div);    
 }
 
 sub replace_original {
