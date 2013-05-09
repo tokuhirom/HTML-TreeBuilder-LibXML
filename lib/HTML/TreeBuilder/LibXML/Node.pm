@@ -160,6 +160,16 @@ sub clone_list {
     @clones;    
 }
 
+sub detach {
+    my $self = shift;
+    my $parent = $self->parent;
+    #$self->{node}->unbindNode();
+    my $doc = XML::LibXML->createDocument;
+    $doc->adoptNode($self->{node});
+    $doc->setDocumentElement($self->{node});    
+    $parent;
+}
+
 sub delete {
     my $self = shift;
     $self->{node}->unbindNode();
