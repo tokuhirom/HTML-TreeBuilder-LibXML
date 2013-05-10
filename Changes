@@ -2,6 +2,12 @@ Revision history for Perl extension HTML::TreeBuilder::LibXML
 
 {{$NEXT}}
 
+0.19 2013-05-10T01:03:58Z
+
+    - fixed replace_with() and parent(), 
+      to avoid calling appendChild() on a Document node, which is not supported by XML::LibXML.
+      (cafe01)
+
 0.18 2013-05-09T20:49:04Z
 
     - implemented all node methods needed for Web::Query::LibXML to work
