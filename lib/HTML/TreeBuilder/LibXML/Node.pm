@@ -163,10 +163,7 @@ sub clone_list {
 sub detach {
     my $self = shift;
     my $parent = $self->parent;
-    #$self->{node}->unbindNode();
-    my $doc = XML::LibXML->createDocument;
-    $doc->adoptNode($self->{node});
-    $doc->setDocumentElement($self->{node});    
+    $self->{node}->unbindNode();    
     $parent;
 }
 
@@ -203,19 +200,19 @@ sub content_list {
 sub replace_with {
     my $self = shift;
     
+    # TODO handle @_ == 0
+    
     my $node   = $self->{node}; 
-    my $doc    = $node->ownerDocument;
-    my $parent = $node->parentNode;        
+    my $doc    = $node->ownerDocument;        
     my @nodes  = map { ref $_ ? $_->{node} : $doc->createTextNode($_) } @_;
     
-    $node->addSibling($_)
-        foreach @nodes; 
+    foreach (@nodes) {
+        $doc->adoptNode($_);
+        $node->addSibling($_);
+    } 
 
-    my $newdoc = XML::LibXML->createDocument;
-    $newdoc->adoptNode($self->{node});
-    $newdoc->setDocumentElement($self->{node});
-    
-    $self;    
+    $self->detach;
+    $self;  
 }
 
 sub push_content {
@@ -375,7 +372,7 @@ sub parent {
     else {
         # get
         my $parent = $self->{node}->parentNode;
-        return ref $parent ne 'XML::LibXML::DocumentFragment' ? ref($self)->new($parent) : undef;
+        return defined $parent && !$parent->isa('XML::LibXML::DocumentFragment')? ref($self)->new($parent) : undef;
     }
 
 }

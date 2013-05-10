@@ -13,6 +13,7 @@ my ($p) = $el->findnodes('./p');
 my $parent = $p->detach;
 
 is $parent->as_HTML, '<div class="foo"/>', 'detach returns old parent';
-isa_ok $p->{node}->parentNode, 'XML::LibXML::Document', 'element new parent';
+is $p->parent, undef, 'detached element has no parent anymore';
+isa_ok $p->{node}->parentNode, 'XML::LibXML::DocumentFragment', 'its now in a document fragment';
 
 done_testing;
