@@ -17,15 +17,11 @@ is $p2->parent, undef, 'replaced node has no parent anymore';
 is $div->as_HTML, '<div class="foo">foo<p>baz</p>bar</div>', 'replace_with';
 
 # when parent is a document 
-$tree = HTML::TreeBuilder::LibXML->new_from_content('<div class="foo"><p>bar</p></div>');
-($div) = $tree->disembowel; 
+($div) = HTML::TreeBuilder::LibXML->new_from_content('<div class="foo"><p>bar</p></div>')->disembowel;
+my $doc = $div->parent;
 
-my $doc = $div->{node}->parentNode;
 $div = $div->replace_with('foo', scalar HTML::TreeBuilder::LibXML->new_from_content('<p>baz</p>')->guts, 'bar');
-is $doc->toString, "<?xml version=\"1.0\"?>\nfoo\n<p>baz</p>\nbar\n", 'replace_with when parent is a document';
-
-#diag $div->as_HTML;
-#diag ref $div->{node}->parentNode;
+is $doc->as_HTML, "<?xml version=\"1.0\"?>\nfoo\n<p>baz</p>\nbar\n", 'replace_with when parent is a document';
 
 
 done_testing;
