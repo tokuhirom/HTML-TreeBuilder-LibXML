@@ -2,6 +2,12 @@ Revision history for Perl extension HTML::TreeBuilder::LibXML
 
 {{$NEXT}}
 
+0.20 2013-05-10T20:44:16Z
+
+    - improved replace_with() on document node.
+    - fixed push_content() and unshift_content() to work with document mode.
+    (cafe01)
+
 0.19 2013-05-10T01:03:58Z
 
     - fixed replace_with() and parent(), 
