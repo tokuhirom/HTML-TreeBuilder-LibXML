@@ -163,7 +163,10 @@ sub clone_list {
 sub detach {
     my $self = shift;
     my $parent = $self->parent;
-    $self->{node}->unbindNode();    
+    #$self->{node}->unbindNode();   
+    my $doc = XML::LibXML->createDocument;
+    $doc->adoptNode($self->{node});
+    $doc->setDocumentElement($self->{node});  
     $parent;
 }
 
@@ -203,14 +206,29 @@ sub replace_with {
     # TODO handle @_ == 0
     
     my $node   = $self->{node}; 
-    my $doc    = $node->ownerDocument;        
+    my $doc    = $node->ownerDocument;
+    my $parent = $node->parentNode;
+    die "can't replace_with(), node has no parent!" unless $parent;
+            
     my @nodes  = map { ref $_ ? $_->{node} : $doc->createTextNode($_) } @_;
     
-    foreach (@nodes) {
-        $doc->adoptNode($_);
-        $node->addSibling($_);
-    } 
-
+    if ($parent && $parent->isa('XML::LibXML::Document')) {
+        # can't call insertBefore() in a document node,
+        # so this is the best hack so far :[
+        # works only if $node is the last child
+        die "[not supported] calling replace_with() in a node that is child of a document node, and its not the last child."
+            unless $node->isSameNode($parent->lastChild);
+        
+        foreach (@nodes) {
+            $parent->adoptNode($_);
+            $node->addSibling($_);
+        }        
+    }
+    else {
+        $parent->insertBefore($_, $node)
+            for @nodes;        
+    }
+    
     $self->detach;
     $self;  
 }
@@ -226,7 +244,7 @@ sub push_content {
     if ($node->isa('XML::LibXML::Document')) { 
         
         foreach (@nodes) {            
-            $node->adoptNode($_);
+            #$node->adoptNode($_);
             $node->hasChildNodes ? $node->lastChild->addSibling($_)
                                  : $node->setDocumentElement($_);
         }        
@@ -253,7 +271,7 @@ sub unshift_content {
     if ($node->isa('XML::LibXML::Document')) {
         
         foreach (@nodes) {
-            $node->adoptNode($_);
+            #$node->adoptNode($_);
             $first_child->addSibling($_);
         }
         
