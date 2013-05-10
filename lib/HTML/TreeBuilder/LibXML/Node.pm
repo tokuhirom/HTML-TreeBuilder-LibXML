@@ -208,8 +208,8 @@ sub replace_with {
     my $parent = $node->parentNode;        
     my @nodes  = map { ref $_ ? $_->{node} : $doc->createTextNode($_) } @_;
     
-    $parent->insertBefore($_, $node)
-        foreach @nodes;    
+    $node->addSibling($_)
+        foreach @nodes; 
 
     my $newdoc = XML::LibXML->createDocument;
     $newdoc->adoptNode($self->{node});
@@ -341,17 +341,34 @@ sub matches {
 
 sub parent {
     my $self = shift;
+    
     if (@_) {    
+        
+        # unset
+        unless (defined $_[0]) {
+            $self->{node}->unbindNode;   
+            return;            
+        }
+        
         # set        
-        if (defined $_[0]) {
-            Carp::croak "an element can't be made its own parent"
-                if ref $_[0]->{node}->isEqual($self->{node});    # sanity
-                
-            $_[0]->{node}->appendChild($self->{node});                        
+        Carp::croak "an element can't be made its own parent"
+            if ref $_[0]->{node}->isSameNode($self->{node});    # sanity
+            
+        my $parent = $_[0]->{node};
+        
+        if ($_[0]->{node}->isa('XML::LibXML::Document')) {
+
+            if ($parent->hasChildNodes) {
+                $parent->lastChild->addSibling($self->{node});
+            }
+            else {
+                $parent->adoptNode($self->{node});
+                $parent->setDocumentElement($self->{node});                    
+            }                
+            
         }
         else {
-            # unset
-            $self->{node}->unbindNode;    
+            $parent->appendChild($self->{node});                
         }
                 
     }
