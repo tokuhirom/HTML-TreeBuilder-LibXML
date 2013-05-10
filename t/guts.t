@@ -12,6 +12,10 @@ my $guts = $tree->guts;
 
 isa_ok $guts->{node}->ownerDocument, 'XML::LibXML::Document';
 is $guts->as_HTML, '<div><header>foo</header><footer>bar</footer></div>', 'guts - scalar context';
- 
+
+# guts() must return tags from implicit <head> as well
+my @nodes = HTML::TreeBuilder::LibXML->new_from_content('<title>head tag</title><div>body tag</div>')->guts;
+is join('|', map {$_->as_HTML} @nodes), '<title>head tag</title>|<div>body tag</div>';
+
 
 done_testing;
