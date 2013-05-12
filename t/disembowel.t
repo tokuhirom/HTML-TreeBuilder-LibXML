@@ -10,8 +10,9 @@ my $tree = HTML::TreeBuilder::LibXML->new_from_content('<header>foo</header><foo
 my @nodes = $tree->disembowel;
 is join('|', map {$_->as_HTML} @nodes), '<header>foo</header>|<footer>bar</footer>', 'disembowel - list context';
 
-isa_ok $nodes[0]->parent->{node}, 'XML::LibXML::Document', 'node parent';
-
+isa_ok $nodes[0]->parent->{node}, 'XML::LibXML::Document', 'first node parent';
+isa_ok $nodes[1]->parent->{node}, 'XML::LibXML::Document', 'second node parent';
+ok $nodes[0]->parent->{node}->isSameNode($nodes[1]->parent->{node}), 'nodes belong to the same document';
 
 
 # scalar context
