@@ -10,7 +10,7 @@ my ($el) = $tree->guts;
 
 
 $el->delete_content;
-is $el->as_HTML, '<div class="foo"/>', 'delete_content';
+is $el->as_HTML, '<div class="foo"></div>', 'delete_content';
 
 
 

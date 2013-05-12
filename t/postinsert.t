@@ -13,7 +13,7 @@ my @nodes = $tree->guts;
 my ($p) = HTML::TreeBuilder::LibXML->new_from_content('<div><p/></div>')->findnodes('//p');
 
 $p->postinsert(@nodes);
-is $p->parent->as_HTML, '<div><p/><div class="foo">foo</div><span>bar</span></div>', 'postinsert';
+is $p->parent->as_HTML, '<div><p></p><div class="foo">foo</div><span>bar</span></div>', 'postinsert';
 
 
 done_testing;

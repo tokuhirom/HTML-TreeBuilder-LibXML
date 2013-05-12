@@ -56,7 +56,16 @@ sub as_XML {
 }
 
 sub as_HTML {
-    $_[0]->{node}->toString;
+    return $_[0]->{node}->toStringHTML if $_[0]->{node}->can('toStringHTML'); # best method, but only document nodes can toStringHTML()
+    
+    # second best is to call toStringC14N(1), which generates valid HTML (eg. no auto closed <div/>), 
+    # but dies on some cases with "Failed to convert doc to string in doc->toStringC14N" error.
+    # so we fallback to toString()
+    {
+        local $@; # protect existing $@
+        my $output = eval { $_[0]->{node}->toStringC14N(1) };
+        return $@ ? $_[0]->{node}->toString : $output;
+    }
 }
 
 sub tag {

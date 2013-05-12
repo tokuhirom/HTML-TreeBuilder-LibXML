@@ -17,7 +17,7 @@ my $doc = $el->parent;
 isa_ok $doc->{node}, 'XML::LibXML::Document';
 
 $doc->unshift_content(HTML::TreeBuilder::LibXML->new_from_content('<p>cool</p>')->disembowel);
-is $doc->as_HTML, "<?xml version=\"1.0\"?>\n<p>cool</p>\n<div class=\"foo\">foo<p>baz</p>barSTUFF</div>\n", 'when node is a document';
+is $doc->as_HTML, '<p>cool</p><div class="foo">foo<p>baz</p>barSTUFF</div>'."\n", 'when node is a document';
 
 
 done_testing;

@@ -12,7 +12,7 @@ my ($p) = $el->findnodes('./p');
 
 my $parent = $p->detach;
 
-is $parent->as_HTML, '<div class="foo"/>', 'detach returns old parent';
+is $parent->as_HTML, '<div class="foo"></div>', 'detach returns old parent';
 isa_ok $p->{node}->parentNode, 'XML::LibXML::Document', 'element new parent';
 
 done_testing;
