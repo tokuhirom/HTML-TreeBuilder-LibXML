@@ -18,4 +18,11 @@ my @nodes = HTML::TreeBuilder::LibXML->new_from_content('<title>head tag</title>
 is join('|', map {$_->as_HTML} @nodes), '<title>head tag</title>|<div>body tag</div>';
 
 
+# guts must include text and comments
+@nodes = HTML::TreeBuilder::LibXML->new_from_content('<title>head tag</title><!-- foo --><div>body tag</div><!-- bar --> some text')->guts;
+is join('|', map {$_->as_HTML} @nodes), "<title>head tag</title>|<!-- foo -->\n|<div>body tag</div>|<!-- bar -->\n| some text";
+
+
+
+
 done_testing;

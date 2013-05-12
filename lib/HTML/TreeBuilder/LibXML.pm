@@ -84,8 +84,8 @@ sub elementify {
 
 sub guts {
     my ($self, $destructive) = @_;
-            
-    my @out = $self->{_implicit_html} ? $self->{node}->findnodes('/html/head/*|/html/body/*')
+
+    my @out = $self->{_implicit_html} ? map { $_->childNodes } $self->{node}->findnodes('/html/head | /html/body')
                                       : $self->{node};
 
     if ($destructive && @out > 0) {
