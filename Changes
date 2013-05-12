@@ -2,6 +2,15 @@ Revision history for Perl extension HTML::TreeBuilder::LibXML
 
 {{$NEXT}}
 
+0.21 2013-05-12T19:12:53Z
+
+    - fixed guts(), 
+      - now returning nodes from <head> and <body> instead of just <body>
+      - now returning text and comment nodes instead of just element nodes
+      - returned nodes now belong to the same document
+    - fixed to_HTML to render valid html, not xml
+      (cafe01)
+
 0.20 2013-05-10T20:44:16Z
 
     - improved replace_with() on document node.

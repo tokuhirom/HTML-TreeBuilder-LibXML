@@ -70,7 +70,7 @@
          "web" : "https://github.com/tokuhirom/HTML-TreeBuilder-LibXML"
       }
    },
-   "version" : "0.20",
+   "version" : "0.21",
    "x_contributors" : [
       "Masahiro Chiba <nihen@megabbs.com>",
       "kimura.hideo <kimurahideo@Administrator.local>",
