@@ -2,6 +2,12 @@ Revision history for Perl extension HTML::TreeBuilder::LibXML
 
 {{$NEXT}}
 
+0.22 2013-05-13T00:04:09Z
+
+    - improved guts(), calling nonBlankChildNodes() instead of childNodes()
+    - improved HTML::TreeBuilder::LibXML::Node documentation
+      (cafe01)
+
 0.21 2013-05-12T19:12:53Z
 
     - fixed guts(), 
