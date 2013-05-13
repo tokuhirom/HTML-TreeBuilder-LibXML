@@ -480,6 +480,16 @@ HTML::TreeBuilder::LibXML::Node - HTML::Element compatible API for HTML::TreeBui
   my @names    = $node->all_attr_names;
   my @names    = $node->all_external_attr_names;
   my @elements = $node->find($elem_name);
+  my @child_nodes = $node->content_list;
+  my $parent = $node->parent;
+  my $old_parent = $node->detach;
+  $node->postinsert($element_or_text, ...);
+  $node->preinsert($element_or_text, ...);
+  $node->push_content($element_or_text, ...);
+  $node->unshift_content($element_or_text, ...);
+  $node->replace_with($element_or_text, ...);
+  
+  my @clones = HTML::TreeBuilder::LibXML::Node->clone_list(@nodes);
 
   # HTML::TreeBuilder::XPath
   my @nodes  = $node->find($xpath)
@@ -489,6 +499,7 @@ HTML::TreeBuilder::LibXML::Node - HTML::Element compatible API for HTML::TreeBui
   $node->isTextNode;
   my $child = $node->getFirstChild;
   my $bool  = $node->exists($xpath);
+  my $bool  = $node->matches($xpath);
 
   my $value  = $node->findnodes_as_string($xpath);
   my @values = $node->findnodes_as_strings($xpath);
