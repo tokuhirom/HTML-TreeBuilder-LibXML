@@ -65,6 +65,7 @@ sub eof {
     my ($self, ) = @_;
     $self->{_content} = ' ' if defined $self->{_content} && $self->{_content} eq ''; # HACK
     $self->{_implicit_html} = 1 unless $self->{_content} =~ /<html/i; # TODO find a better way to know that implicit <html> was inserted
+    $self->{_implicit_doctype} = 1 unless $self->{_content} =~ /<!DOCTYPE/i;
     my $doc = $self->_parser->parse_html_string($self->{_content});
     $self->{node} = $self->_documentElement($doc);
 }
@@ -90,6 +91,9 @@ sub guts {
 
     if ($destructive && @out > 0) {
         my $doc = XML::LibXML->createDocument;
+        if (!$self->{_implicit_doctype} && (my $dtd = $out[0]->ownerDocument->internalSubset)) {
+            $doc->createInternalSubset( $dtd->getName, $dtd->publicId, $dtd->systemId );
+        }
         $doc->setDocumentElement($out[0]); # 1st child
         $out[0]->addSibling($_) foreach @out[1..$#out];
     }
@@ -98,6 +102,9 @@ sub guts {
     return unless @out;
     
     my $doc = XML::LibXML->createDocument;
+    if (!$self->{_implicit_doctype} && (my $dtd = $out[0]->ownerDocument->internalSubset)) {
+        $doc->createInternalSubset( $dtd->getName, $dtd->publicId, $dtd->systemId );
+    }
 
     if (@out == 1) {
         $doc->adoptNode($out[0]);

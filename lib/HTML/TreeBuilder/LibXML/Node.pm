@@ -158,7 +158,16 @@ sub clone {
 
     my $node = $orignode->cloneNode(1);
     my $doc = XML::LibXML::Document->new($origdoc->version, $origdoc->encoding);
-    $doc->setDocumentElement($node);
+    
+    if ($node->isa('XML::LibXML::Dtd')) {
+        $doc->createInternalSubset( $node->getName, $node->publicId, $node->systemId );
+        $node = $doc->internalSubset;        
+    } elsif ($node->isa('XML::LibXML::Element')) {
+        $doc->setDocumentElement($node);    
+    } else {
+        $doc->adoptNode($node);
+    }
+    
     my $cloned = __PACKAGE__->new($node);
     return $cloned;
 }
@@ -221,7 +230,7 @@ sub replace_with {
             
     my @nodes  = map { ref $_ ? $_->{node} : $doc->createTextNode($_) } @_;
     
-    if ($parent && $parent->isa('XML::LibXML::Document')) {
+    if ($parent->isa('XML::LibXML::Document')) {
         # can't call insertBefore() in a document node,
         # so this is the best hack so far :[
         # works only if $node is the last child
@@ -229,16 +238,22 @@ sub replace_with {
             unless $node->isSameNode($parent->lastChild);
         
         foreach (@nodes) {
+                       
+            if ($_->isa('XML::LibXML::Dtd')) {
+                $parent->createInternalSubset($_->getName, $_->publicId, $_->systemId);
+                next;
+            }
             $parent->adoptNode($_);
             $node->addSibling($_);
-        }        
+        }    
+         
     }
     else {
         $parent->insertBefore($_, $node)
             for @nodes;        
     }
     
-    $self->detach;
+    $self->detach;   
     $self;  
 }
 
@@ -252,7 +267,7 @@ sub push_content {
     # thats because appendChild() is not supported on a Document node (as of XML::LibXML 2.0017)
     if ($node->isa('XML::LibXML::Document')) { 
         
-        foreach (@nodes) {            
+        foreach (@nodes) {      
             #$node->adoptNode($_);
             $node->hasChildNodes ? $node->lastChild->addSibling($_)
                                  : $node->setDocumentElement($_);
@@ -274,21 +289,25 @@ sub unshift_content {
     my $node = $self->{node};
     my $doc = $node->isa('XML::LibXML::Document') ? $node : $node->ownerDocument;
     my @nodes = map { ref $_ ? $_->{node} : $doc->createTextNode($_) } @_;
-    my $first_child = $node->firstChild;
     
     # thats because insertBefore() is not supported on a Document node (as of XML::LibXML 2.0017)
     if ($node->isa('XML::LibXML::Document')) {
         
         foreach (@nodes) {
-            #$node->adoptNode($_);
-            $first_child->addSibling($_);
+            $node->hasChildNodes ? $node->lastChild->addSibling($_)
+                                 : $node->setDocumentElement($_);
         }
         
-        $first_child->unbindNode;
-        $nodes[-1]->addSibling($first_child);
-        
+        # rotate
+        while (not $node->firstChild->isSameNode($nodes[0])) {
+            my $first_node = $node->firstChild;
+            $first_node->unbindNode;
+            $node->lastChild->addSibling($first_node);
+            
+        }        
     }
     else {
+        my $first_child = $node->firstChild;
         $node->insertBefore($_, $first_child) for @nodes;
     }
     

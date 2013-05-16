@@ -33,7 +33,7 @@ is $doc->as_HTML, "<div>foo</div>\n", 'set a doc as parent';
 $tree = HTML::TreeBuilder::LibXML->new_from_content('<div>foo</div><div>bar</div>');
 my ($div_foo, $div_bar) = $tree->guts(1);
 $div_foo->parent($div_bar->parent);
-is $div_foo->parent->as_HTML, '<div>bar</div><div>foo</div>'."\n", 'set a doc with child as parent';
+is $div_foo->parent->as_HTML, "<div>bar</div><div>foo</div>\n", 'set a doc with child as parent';
 
 
 
