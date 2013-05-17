@@ -2,6 +2,14 @@ Revision history for Perl extension HTML::TreeBuilder::LibXML
 
 {{$NEXT}}
 
+0.23 2013-05-17T00:16:48Z
+
+    - fixed guts(), clone() and replace_with() to properly handle XML::LibXML::Dtd nodes    
+      - guts() now includes the Dtd node in the returned document (unless it were implicitly created)
+      - clone() calls createInternalSubset() on the new document
+      - replace_with() calls createInternalSubset() if the replacement is a XML::LibXML::Dtd (can't import Dtd node)
+        (cafe01)
+
 0.22 2013-05-13T00:04:09Z
 
     - improved guts(), calling nonBlankChildNodes() instead of childNodes()
