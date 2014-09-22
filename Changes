@@ -2,6 +2,11 @@ Revision history for Perl extension HTML::TreeBuilder::LibXML
 
 {{$NEXT}}
 
+0.24 2014-09-22T09:31:26Z
+
+    - Removed Web::Scraper from runtime dependencies.
+      https://github.com/tokuhirom/HTML-TreeBuilder-LibXML/issues/9
+
 0.23 2013-05-17T00:16:48Z
 
     - fixed guts(), clone() and replace_with() to properly handle XML::LibXML::Dtd nodes    
