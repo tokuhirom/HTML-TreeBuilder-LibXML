@@ -157,7 +157,12 @@ sub clone {
     my $origdoc = $orignode->ownerDocument;
 
     my $node = $orignode->cloneNode(1);
-    my $doc = XML::LibXML::Document->new($origdoc->version, $origdoc->encoding);
+
+    # arguments can be undefined
+    my $doc = do {
+        no warnings;
+        XML::LibXML::Document->new($origdoc->version, $origdoc->encoding);
+    };
     
     if ($node->isa('XML::LibXML::Dtd')) {
         $doc->createInternalSubset( $node->getName, $node->publicId, $node->systemId );
