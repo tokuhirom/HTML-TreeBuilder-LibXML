@@ -2,6 +2,18 @@ Revision history for Perl extension HTML::TreeBuilder::LibXML
 
 {{$NEXT}}
 
+0.25 2015-04-21T23:39:33Z
+
+    commit 5c46775d50678e611729135f3601b66e6a0d10cd
+    Author: Yanick Champoux <yanick@babyl.dyndns.org>
+    Date:   Thu Jan 15 14:15:04 2015 -0500
+
+        silence warnings
+
+        ... as the arguments can be undefined
+
+        Fixes #10
+
 0.24 2014-09-22T09:31:26Z
 
     - Removed Web::Scraper from runtime dependencies.
