@@ -2,6 +2,13 @@ Revision history for Perl extension HTML::TreeBuilder::LibXML
 
 {{$NEXT}}
 
+0.26 2016-10-19T15:03:00Z
+
+    - Improve `HTML::TreeBuilder::LibXML::Node->new` compatibility
+      with `HTML::Element->new`
+      https://github.com/tokuhirom/HTML-TreeBuilder-LibXML/issues/12
+      (reported by nanto++)
+
 0.25 2015-04-21T23:39:33Z
 
     commit 5c46775d50678e611729135f3601b66e6a0d10cd
