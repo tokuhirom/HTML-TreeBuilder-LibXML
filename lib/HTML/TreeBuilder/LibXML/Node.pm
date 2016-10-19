@@ -4,9 +4,19 @@ use warnings;
 use Carp();
 
 sub new {
-    my ($class, $node) = @_;
-    Carp::croak 'missing node' unless $node;
-    bless {node => $node}, $class;
+    my $class = shift;
+    Carp::croak 'missing arguments' unless @_>=1;
+    if (@_==1 && ref($_[0])) {
+        bless {node => $_[0]}, $class;
+    } else {
+        my ($tag, @attrs) = @_;
+        my $doc = XML::LibXML->createDocument;
+        my $node = $doc->createElement($tag);
+        while (my ($k, $v) = splice @attrs, 0, 2) {
+            $node->setAttribute($k, $v);
+        }
+        bless {node => $node}, $class;
+    }
 }
 
 sub attr {
