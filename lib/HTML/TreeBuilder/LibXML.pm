@@ -36,7 +36,7 @@ sub _parser {
         $PARSER = XML::LibXML->new();
         $PARSER->recover(1);
         $PARSER->recover_silently(1);
-        $PARSER->keep_blanks(0);
+        $PARSER->keep_blanks(1);
         $PARSER->expand_entities(1);
         $PARSER->no_network(1);
     }
