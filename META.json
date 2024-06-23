@@ -69,7 +69,7 @@
          "web" : "https://github.com/tokuhirom/HTML-TreeBuilder-LibXML"
       }
    },
-   "version" : "0.27",
+   "version" : "0.28",
    "x_contributors" : [
       "Carlos Fernando Avila Gratz <cafe01@gmail.com>",
       "Carlos Fernando Avila Gratz <cafe@q1software.com>",
@@ -80,6 +80,7 @@
       "Perlover <perlover@perlover.com>",
       "Stanislaw Pusep <creaktive@gmail.com>",
       "Tatsuhiko Miyagawa <miyagawa@bulknews.net>",
+      "Tokuhiro Matsuno <tokuhirom@linecorp.com>",
       "Yanick Champoux <yanick@babyl.dyndns.org>",
       "kimura.hideo <kimurahideo@Administrator.local>"
    ],

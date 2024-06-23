@@ -2,6 +2,10 @@ Revision history for Perl extension HTML::TreeBuilder::LibXML
 
 {{$NEXT}}
 
+0.28 2024-06-20T08:17:27Z
+
+    - Same code as 0.27 - republishing to force CPAN reindexing
+
 0.27 2024-01-09T06:19:12Z
 
     - don't have the parser string blanks by default #15
